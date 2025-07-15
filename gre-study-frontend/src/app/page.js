@@ -8,7 +8,6 @@ import axios, { AxiosError } from "axios";
 
 export default function Home() {
   const [words, setWords] = useState();
-
   const fetchWords = async () => {
     try {
       const result = await instance.get("/get-all");
