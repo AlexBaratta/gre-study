@@ -8,6 +8,9 @@ export default function CrosswordGenerator({ words }) {
 
   useEffect(() => {
       console.log("Words", words)
+    if (!words || words.length === 0) {
+      return;
+    }
 
     const layoutInput = words.map((w) => ({
       clue: w.definition,
@@ -21,6 +24,10 @@ export default function CrosswordGenerator({ words }) {
       const down = {};
 
       layout.result.forEach((item) => {
+        if (typeof item.position !== "number") {
+          return; // Skip this invalid item
+        }
+
         if (item.orientation === "across") {
           across[item.position] = {
             clue: item.clue,
