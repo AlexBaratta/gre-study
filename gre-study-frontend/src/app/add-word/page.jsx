@@ -16,7 +16,7 @@ export default function AddWordPage() {
     setLoading(true);
     try {
       const { data } = await instance.post("/add-new", { word, definition });
-      router.push("/");
+      // router.push("/");
     } catch (err) {
       console.error("Caught error:", err);
 
