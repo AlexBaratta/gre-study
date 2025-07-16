@@ -3,6 +3,8 @@ package com.grestudy.gre_study_backend.controller;
 import com.grestudy.gre_study_backend.dto.AddVocabRequest;
 import com.grestudy.gre_study_backend.models.Vocabulary;
 import com.grestudy.gre_study_backend.service.VocabService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 public class VocabController {
+    private static final Logger log = LoggerFactory.getLogger(VocabController.class);
     private final VocabService vocabService;
 
     public VocabController(VocabService vocabService) {
@@ -19,8 +22,10 @@ public class VocabController {
 
     @GetMapping("/get-all")
     public ResponseEntity<?> test(){
+        log.info("Get all hit");
         try {
             List<Vocabulary> words = vocabService.getAll();
+            log.info("Found words: " + words);
             return ResponseEntity.ok(words);
         } catch (Exception e) {
             return ResponseEntity.status(500).body(e.getMessage());
