@@ -1,18 +1,32 @@
 "use client";
 import Crossword from "@jaredreisinger/react-crossword";
 import { generateLayout } from "crossword-layout-generator";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function CrosswordGenerator({ words }) {
   const [data, setData] = useState(null);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const crosswordRef = useRef();
+
+  const checkAnswers = () => {
+    if (isCorrect) {
+      alert("YIPPPPIEE YOU DID IT");
+    } else {
+      alert(
+        "YIIIKESSSSSS. YOU TOTALLY DID SOMETHING WRONG!!! IDK WHAT THO CUS IDK HOW TO CHECK INDIVIDUAL WORDS YET"
+      );
+    }
+  };
 
   useEffect(() => {
-      console.log("Words", words)
     if (!words || words.length === 0) {
       return;
     }
 
-    const layoutInput = words.map((w) => ({
+    const shuffled = [...words].sort(() => Math.random() - 0.5);
+    const randomTen = shuffled.slice(0, 2);
+
+    const layoutInput = randomTen.map((w) => ({
       clue: w.definition,
       answer: w.word.toUpperCase(),
     }));
@@ -53,5 +67,15 @@ export default function CrosswordGenerator({ words }) {
     return <div>Generating crossword...</div>;
   }
 
-  return <Crossword data={data} />;
+  return (
+    <div>
+      <Crossword data={data} onCrosswordCorrect={setIsCorrect} />
+      <button
+        onClick={checkAnswers}
+        style={{ marginTop: "1rem", padding: "0.5rem 1rem" }}
+      >
+        Check Answers
+      </button>
+    </div>
+  );
 }

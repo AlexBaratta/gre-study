@@ -29,5 +29,9 @@ export default function Home() {
   if (!words) {
     return <div>Loading...</div>;
   }
-  return <CrosswordGenerator words={words} />;
+  return (
+    <div>
+      <CrosswordGenerator words={words} />
+    </div>
+  );
 }
