@@ -24,7 +24,7 @@ export default function CrosswordGenerator({ words }) {
     }
 
     const shuffled = [...words].sort(() => Math.random() - 0.5);
-    const randomTen = shuffled.slice(0, 2);
+    const randomTen = shuffled.slice(0, 10);
 
     const layoutInput = randomTen.map((w) => ({
       clue: w.definition,
