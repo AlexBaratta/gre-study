@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { instance } from "../utils/axiosInstace";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+
 import axios from "axios";
 
 export default function AddWordPage() {
@@ -14,8 +16,13 @@ export default function AddWordPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
+    toast.dismiss();
     try {
       const { data } = await instance.post("/add-new", { word, definition });
+      toast.success("Successfully added new word!");
+      setWord("");
+      setDefinition("");
       // router.push("/");
     } catch (err) {
       console.error("Caught error:", err);
@@ -27,10 +34,13 @@ export default function AddWordPage() {
               ? err.response.data
               : err.response.data.message || "Server rejected the request"
           );
+          toast.error(error);
         } else if (err.request) {
           setError("No response from server");
+          toast.error(error);
         } else {
           setError("Request setup failed: " + err.message);
+          toast.error(error);
         }
       } else {
         // not an AxiosError (should be rare)
@@ -75,7 +85,8 @@ export default function AddWordPage() {
           {loading ? "Saving..." : "Add new word"}
         </button>
       </form>
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+      {/* {error && <p className="text-red-600 text-sm">{error}</p>} */}
+      <ToastContainer />
     </div>
   );
 }
