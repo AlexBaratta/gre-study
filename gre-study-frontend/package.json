@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@jaredreisinger/react-crossword": "^5.2.0",
+    "@tanstack/react-query": "^5.83.0",
     "axios": "^1.10.0",
     "crossword-layout-generator": "^0.1.1",
     "dotenv": "^17.2.0",

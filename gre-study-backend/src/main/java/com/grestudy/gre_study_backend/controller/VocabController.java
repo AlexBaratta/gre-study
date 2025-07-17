@@ -20,9 +20,9 @@ public class VocabController {
         this.vocabService = vocabService;
     }
 
-    @GetMapping("/get-all")
+    @GetMapping("/words")
     public ResponseEntity<?> test(){
-        log.info("Get all hit");
+        log.info("ALL WORDS HIT");
         try {
             List<Vocabulary> words = vocabService.getAll();
             log.info("Found words: " + words);
@@ -34,6 +34,7 @@ public class VocabController {
 
     @PostMapping("/add-new")
     public ResponseEntity<?> addNewWord(@RequestBody AddVocabRequest request){
+        log.info("Adding word:" + request.getWord());
         try {
             Vocabulary v = vocabService.validateAddNewWord(request);
             return ResponseEntity.ok(v);

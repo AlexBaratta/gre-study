@@ -2,8 +2,10 @@
 import Crossword from "@jaredreisinger/react-crossword";
 import { generateLayout } from "crossword-layout-generator";
 import { useEffect, useRef, useState } from "react";
+import log from "../utils/logger.js"
 
 export default function CrosswordGenerator({ words }) {
+  log.debug("Words:", words)
   const [data, setData] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
   const crosswordRef = useRef();

@@ -26,6 +26,15 @@ export default function Sidebar() {
               Add Words
             </button>
           </li>
+                    <li>
+            <button
+              className="w-full text-left px-3 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white"
+              onClick={() => router.push('/words')}
+            >
+              View All Words
+            </button>
+          </li>
+
         </ul>
       </nav>
     </aside>

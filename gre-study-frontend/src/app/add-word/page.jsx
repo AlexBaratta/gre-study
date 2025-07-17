@@ -5,63 +5,48 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import log from "../utils/logger.js";
 import axios from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export default function AddWordPage() {
   const router = useRouter();
   const [word, setWord] = useState("");
   const [definition, setDefinition] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+
+  const {
+    mutate: addWord,
+    isPending: loading,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: ({ word, definition }) =>
+      instance.post("/add-new", { word, definition }).then((res) => res.data),
+    onSuccess: () => {
+      toast.success("Successfully added new word.");
+      setWord(""), setDefinition("");
+    },
+    onError: (err) => {
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 409) {
+          toast.error("That word already exists.");
+          return;
+        }
+        const msg = err.response?.data?.message || err.message;
+        toast.error(msg);
+      }
+    },
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
     toast.dismiss();
-    try {
-      const trimmedWord = word.trim();
-      const trimmedDefinition = definition.trim();
-      if (!trimmedWord || !trimmedDefinition) {
-        setError("Please input a word");
-        toast.error(error);
-        setLoading(false);
-        return;
-      }
-      log.info("Word", word, " Def", definition);
-      const { data } = await instance.post("/add-new", {
-        word: trimmedWord,
-        definition: trimmedDefinition,
-      });
-      log.info(data);
-      toast.success(`Successfully added ${data.word}`);
-      setWord("");
-      setDefinition("");
-    } catch (err) {
-      console.error("Caught error:", err);
-
-      if (axios.isAxiosError(err)) {
-        if (err.response) {
-          setError(
-            typeof err.response.data === "string"
-              ? err.response.data
-              : err.response.data.message || "Server rejected the request"
-          );
-          toast.error(error);
-        } else if (err.request) {
-          setError("No response from server");
-          toast.error(error);
-        } else {
-          setError("Request setup failed: " + err.message);
-          toast.error(error);
-        }
-      } else {
-        // not an AxiosError (should be rare)
-        console.error("Non‑Axios error", err);
-        setError("Unexpected error: " + (err.message || err));
-      }
-    } finally {
-      setLoading(false);
+    const trimmedWord = word.trim();
+    const trimmedDefinition = definition.trim();
+    if (!trimmedWord || !trimmedDefinition) {
+      toast.error("Please enter a word & definition.");
+      return;
     }
+
+    addWord({ word: trimmedWord, definition: trimmedDefinition });
   };
 
   return (
@@ -97,7 +82,6 @@ export default function AddWordPage() {
           {loading ? "Saving..." : "Add new word"}
         </button>
       </form>
-      {/* {error && <p className="text-red-600 text-sm">{error}</p>} */}
       <ToastContainer />
     </div>
   );
