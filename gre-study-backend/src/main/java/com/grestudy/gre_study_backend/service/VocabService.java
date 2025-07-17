@@ -4,6 +4,7 @@ import com.grestudy.gre_study_backend.dto.AddVocabRequest;
 import com.grestudy.gre_study_backend.models.Vocabulary;
 import com.grestudy.gre_study_backend.repository.VocabRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,9 @@ public class VocabService {
         if (vocabRepository.findByWord(request.getWord()).isPresent()){
             throw new RuntimeException("Word already exists");
         }
-        Vocabulary newWord = new Vocabulary(request.getWord(), request.getDefinition());
+        String capitalizedWord = StringUtils.capitalize(request.getWord());
+        String capitalizedDefinition = StringUtils.capitalize(request.getDefinition());
+        Vocabulary newWord = new Vocabulary(capitalizedWord, capitalizedDefinition);
         vocabRepository.save(newWord);
         return newWord;
     }
