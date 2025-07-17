@@ -3,7 +3,7 @@ import { useState } from "react";
 import { instance } from "../utils/axiosInstace";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
-
+import log from "../utils/logger.js";
 import axios from "axios";
 
 export default function AddWordPage() {
@@ -19,11 +19,23 @@ export default function AddWordPage() {
     setError(null);
     toast.dismiss();
     try {
-      const { data } = await instance.post("/add-new", { word, definition });
-      toast.success("Successfully added new word!");
+      const trimmedWord = word.trim();
+      const trimmedDefinition = definition.trim();
+      if (!trimmedWord || !trimmedDefinition) {
+        setError("Please input a word");
+        toast.error(error);
+        setLoading(false);
+        return;
+      }
+      log.info("Word", word, " Def", definition);
+      const { data } = await instance.post("/add-new", {
+        word: trimmedWord,
+        definition: trimmedDefinition,
+      });
+      log.info(data);
+      toast.success(`Successfully added ${data.word}`);
       setWord("");
       setDefinition("");
-      // router.push("/");
     } catch (err) {
       console.error("Caught error:", err);
 

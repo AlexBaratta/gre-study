@@ -5,19 +5,19 @@ import CrosswordGenerator from "./components/CrosswordGenerator";
 import { instance } from "./utils/axiosInstace";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
-
+import log from "./utils/logger";
 export default function Home() {
   const [words, setWords] = useState();
   const fetchWords = async () => {
     try {
       const result = await instance.get("/get-all");
-      console.log(result);
-      console.log("data", result.data);
+      log.info(result);
+      log.info("data", result.data);
       setWords(result.data);
-      console.log(words);
+      log.info(words);
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        console.log("Axios Error:", err);
+        log.info("Axios Error:", err);
       }
     }
   };
