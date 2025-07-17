@@ -1,6 +1,7 @@
 package com.grestudy.gre_study_backend.controller;
 
 import com.grestudy.gre_study_backend.dto.AddVocabRequest;
+import com.grestudy.gre_study_backend.dto.DeleteVocabRequest;
 import com.grestudy.gre_study_backend.models.Vocabulary;
 import com.grestudy.gre_study_backend.service.VocabService;
 import org.slf4j.Logger;
@@ -40,6 +41,16 @@ public class VocabController {
             return ResponseEntity.ok(v);
         } catch (RuntimeException e) {
             return ResponseEntity.status(409).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/word")
+    public ResponseEntity<?> deleteWord(@RequestBody DeleteVocabRequest request){
+        try {
+            vocabService.deleteWord(request);
+            return ResponseEntity.ok("Word Delete Successfully");
+        } catch (RuntimeException e){
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 }

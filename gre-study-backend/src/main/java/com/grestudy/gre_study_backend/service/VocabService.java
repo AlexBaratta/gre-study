@@ -1,14 +1,13 @@
 package com.grestudy.gre_study_backend.service;
 
 import com.grestudy.gre_study_backend.dto.AddVocabRequest;
+import com.grestudy.gre_study_backend.dto.DeleteVocabRequest;
 import com.grestudy.gre_study_backend.models.Vocabulary;
 import com.grestudy.gre_study_backend.repository.VocabRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class VocabService {
@@ -31,6 +30,13 @@ public class VocabService {
 
     public List<Vocabulary> getAll(){
         return vocabRepository.findAll();
+    }
+
+    public void deleteWord(DeleteVocabRequest request){
+        int removed = vocabRepository.deleteByWord(request.getWord());
+        if (removed == 0){
+            throw new RuntimeException("Word not found" + request.getWord());
+        }
     }
 }
 
