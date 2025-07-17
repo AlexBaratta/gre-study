@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Comparator;
+
 @Data
 @Getter
 @Setter
@@ -26,4 +28,5 @@ public class Vocabulary {
     public Vocabulary() {
 
     }
+
 }

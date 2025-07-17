@@ -29,14 +29,13 @@ public class VocabService {
     }
 
     public List<Vocabulary> getAll(){
-        return vocabRepository.findAll();
+        List<Vocabulary> list = vocabRepository.findAll();
+        list.sort((a,b) -> a.getWord().compareToIgnoreCase(b.getWord()));
+        return list;
     }
 
-    public void deleteWord(DeleteVocabRequest request){
-        int removed = vocabRepository.deleteByWord(request.getWord());
-        if (removed == 0){
-            throw new RuntimeException("Word not found" + request.getWord());
-        }
+    public void deleteWord(long id){
+        vocabRepository.deleteById(id);
     }
 }
 

@@ -1,28 +1,27 @@
 "use client";
 import { useState } from "react";
 import { instance } from "../utils/axiosInstace";
-import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import log from "../utils/logger.js";
 import axios from "axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function AddWordPage() {
-  const router = useRouter();
+  const qc = useQueryClient();
   const [word, setWord] = useState("");
   const [definition, setDefinition] = useState("");
 
   const {
     mutate: addWord,
     isPending: loading,
-    isError,
-    error,
   } = useMutation({
     mutationFn: ({ word, definition }) =>
       instance.post("/add-new", { word, definition }).then((res) => res.data),
     onSuccess: () => {
       toast.success("Successfully added new word.");
-      setWord(""), setDefinition("");
+      setWord("");
+      setDefinition("");
+      qc.invalidateQueries({ queryKey: ["words"]})
     },
     onError: (err) => {
       if (axios.isAxiosError(err)) {

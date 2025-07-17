@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -44,11 +45,12 @@ public class VocabController {
         }
     }
 
-    @DeleteMapping("/word")
-    public ResponseEntity<?> deleteWord(@RequestBody DeleteVocabRequest request){
+    @DeleteMapping("/word/{id}")
+    public ResponseEntity<?> deleteWord(@PathVariable long id){
+        log.info("DELETE MAPPING HIT");
         try {
-            vocabService.deleteWord(request);
-            return ResponseEntity.ok("Word Delete Successfully");
+            vocabService.deleteWord(id);
+            return ResponseEntity.noContent().build();
         } catch (RuntimeException e){
             return ResponseEntity.status(404).body(e.getMessage());
         }

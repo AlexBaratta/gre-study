@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface VocabRepository extends JpaRepository<Vocabulary, Long> {
     Optional<Vocabulary> findByWord(String word);
-    int deleteByWord(String word);
 }
