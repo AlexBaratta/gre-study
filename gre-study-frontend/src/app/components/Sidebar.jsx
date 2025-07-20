@@ -1,6 +1,6 @@
-'use client';
-import React from 'react';
-import { useRouter } from 'next/navigation';
+"use client";
+import React from "react";
+import { useRouter } from "next/navigation";
 
 export default function Sidebar() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function Sidebar() {
           <li>
             <button
               className="w-full text-left px-3 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white"
-              onClick={() => router.push('/')}
+              onClick={() => router.push("/")}
             >
               Crossword
             </button>
@@ -21,20 +21,28 @@ export default function Sidebar() {
           <li>
             <button
               className="w-full text-left px-3 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white"
-              onClick={() => router.push('/add-word')}
+              onClick={() => router.push("/flashcards")}
+            >
+              Flashcards
+            </button>
+          </li>
+
+          <li>
+            <button
+              className="w-full text-left px-3 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white"
+              onClick={() => router.push("/add-word")}
             >
               Add Words
             </button>
           </li>
-                    <li>
+          <li>
             <button
               className="w-full text-left px-3 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white"
-              onClick={() => router.push('/words')}
+              onClick={() => router.push("/words")}
             >
               View All Words
             </button>
           </li>
-
         </ul>
       </nav>
     </aside>
