@@ -1,21 +1,14 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { instance } from "../utils/axiosInstace";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { toast, ToastContainer } from "react-toastify";
+import { useWords } from "../utils/fetchWordsUtils";
 export default function ViewWordsPage() {
   const qc = useQueryClient();
-  const {
-    data: words,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryFn: () => instance.get("/words").then((res) => res.data),
-    queryKey: ["words"],
-  });
+  const { data: words, isLoading, isError, error } = useWords();
 
   const {
     mutate: deleteWord,
