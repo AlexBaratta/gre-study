@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AddVocabRequest {
-    private String word;
-    private String definition;
+public class AddWordToDeckRequest {
+    private AddVocabRequest vocabRequest;
+    private long id;
 }

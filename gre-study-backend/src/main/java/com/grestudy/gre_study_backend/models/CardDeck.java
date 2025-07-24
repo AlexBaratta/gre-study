@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,25 +12,26 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "VOCABULARY")
-public class Vocabulary {
+@Table(name = "CARD_DECK")
+public class CardDeck {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "WORD_ID")
+    @Column(name = "CARD_DECK_ID")
     private long id;
-    private String word;
-    private String definition;
+    private String name;
+    private String description;
 
-    @OneToMany(mappedBy = "vocabulary", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "cardDeck", cascade = CascadeType.ALL)
     private Set<CardDeckVocabulary> cards = new HashSet<>();
 
-    public Vocabulary(String word, String definition) {
-        this.word = word;
-        this.definition = definition;
+    public CardDeck() {
     }
 
-    public Vocabulary() {
-
+    public CardDeck(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
+
 
 }
