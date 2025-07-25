@@ -1,9 +1,8 @@
-package com.grestudy.gre_study_backend.service;
+package com.grestudy.gre_study_backend.vocabulary.service;
 
-import com.grestudy.gre_study_backend.dto.AddVocabRequest;
-import com.grestudy.gre_study_backend.dto.DeleteVocabRequest;
-import com.grestudy.gre_study_backend.models.Vocabulary;
-import com.grestudy.gre_study_backend.repository.VocabRepository;
+import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
+import com.grestudy.gre_study_backend.vocabulary.domain.Vocabulary;
+import com.grestudy.gre_study_backend.vocabulary.repository.VocabRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

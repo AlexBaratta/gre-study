@@ -1,4 +1,4 @@
-package com.grestudy.gre_study_backend.dto;
+package com.grestudy.gre_study_backend.vocabulary.dto;
 
 import lombok.Getter;
 

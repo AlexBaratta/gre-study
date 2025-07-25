@@ -1,11 +1,12 @@
-package com.grestudy.gre_study_backend.controller;
+package com.grestudy.gre_study_backend.deck.web;
 
-import com.grestudy.gre_study_backend.dto.AddDeckRequest;
-import com.grestudy.gre_study_backend.dto.AddWordToDeckRequest;
-import com.grestudy.gre_study_backend.models.CardDeck;
-import com.grestudy.gre_study_backend.service.CardDeckService;
+import com.grestudy.gre_study_backend.deck.dto.request.AddDeckRequest;
+import com.grestudy.gre_study_backend.deck.dto.request.AddWordToDeckRequest;
+import com.grestudy.gre_study_backend.deck.domain.CardDeck;
+import com.grestudy.gre_study_backend.deck.service.CardDeckService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

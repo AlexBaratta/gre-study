@@ -1,8 +1,8 @@
-package com.grestudy.gre_study_backend.controller;
+package com.grestudy.gre_study_backend.vocabulary.web;
 
-import com.grestudy.gre_study_backend.dto.AddVocabRequest;
-import com.grestudy.gre_study_backend.models.Vocabulary;
-import com.grestudy.gre_study_backend.service.VocabService;
+import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
+import com.grestudy.gre_study_backend.vocabulary.domain.Vocabulary;
+import com.grestudy.gre_study_backend.vocabulary.service.VocabService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
