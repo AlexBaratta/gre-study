@@ -1,11 +1,11 @@
-package com.grestudy.gre_study_backend.models;
+package com.grestudy.gre_study_backend.vocabulary.domain;
 
+import com.grestudy.gre_study_backend.deck.domain.CardDeckVocabulary;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 

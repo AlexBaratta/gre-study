@@ -1,4 +1,4 @@
-package com.grestudy.gre_study_backend.models;
+package com.grestudy.gre_study_backend.deck.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;

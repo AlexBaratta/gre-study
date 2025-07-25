@@ -1,14 +1,14 @@
-package com.grestudy.gre_study_backend.service;
+package com.grestudy.gre_study_backend.deck.service;
 
-import com.grestudy.gre_study_backend.dto.AddDeckRequest;
-import com.grestudy.gre_study_backend.dto.AddVocabRequest;
-import com.grestudy.gre_study_backend.dto.AddWordToDeckRequest;
-import com.grestudy.gre_study_backend.models.CardDeck;
-import com.grestudy.gre_study_backend.models.CardDeckVocabulary;
-import com.grestudy.gre_study_backend.models.Vocabulary;
-import com.grestudy.gre_study_backend.repository.CardDeckRepository;
-import com.grestudy.gre_study_backend.repository.CardDeckVocabularyRepository;
-import com.grestudy.gre_study_backend.repository.VocabRepository;
+import com.grestudy.gre_study_backend.deck.dto.request.AddDeckRequest;
+import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
+import com.grestudy.gre_study_backend.deck.dto.request.AddWordToDeckRequest;
+import com.grestudy.gre_study_backend.deck.domain.CardDeck;
+import com.grestudy.gre_study_backend.deck.domain.CardDeckVocabulary;
+import com.grestudy.gre_study_backend.vocabulary.domain.Vocabulary;
+import com.grestudy.gre_study_backend.deck.repository.CardDeckRepository;
+import com.grestudy.gre_study_backend.deck.repository.CardDeckVocabularyRepository;
+import com.grestudy.gre_study_backend.vocabulary.repository.VocabRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

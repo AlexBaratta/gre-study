@@ -1,5 +1,6 @@
-package com.grestudy.gre_study_backend.models;
+package com.grestudy.gre_study_backend.deck.domain;
 
+import com.grestudy.gre_study_backend.vocabulary.domain.Vocabulary;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

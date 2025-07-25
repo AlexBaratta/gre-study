@@ -1,9 +1,8 @@
-package com.grestudy.gre_study_backend.repository;
+package com.grestudy.gre_study_backend.deck.repository;
 
-import com.grestudy.gre_study_backend.models.CardDeck;
+import com.grestudy.gre_study_backend.deck.domain.CardDeck;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public interface CardDeckRepository extends JpaRepository<CardDeck, Long> {

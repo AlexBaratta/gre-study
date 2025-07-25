@@ -1,5 +1,6 @@
-package com.grestudy.gre_study_backend.dto;
+package com.grestudy.gre_study_backend.deck.dto.request;
 
+import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
 import lombok.Getter;
 import lombok.Setter;
 
