@@ -28,8 +28,8 @@ export default function CrosswordGenerator({ words }) {
     const randomTen = shuffled.slice(0, 30);
 
     const layoutInput = randomTen.map((w) => ({
-      clue: w.definition,
-      answer: w.word.toUpperCase(),
+      clue: w?.definition,
+      answer: w?.word?.toUpperCase(),
     }));
 
     const layout = generateLayout(layoutInput);
