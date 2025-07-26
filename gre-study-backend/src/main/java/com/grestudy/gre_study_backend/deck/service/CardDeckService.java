@@ -1,6 +1,8 @@
 package com.grestudy.gre_study_backend.deck.service;
 
 import com.grestudy.gre_study_backend.deck.dto.request.AddDeckRequest;
+import com.grestudy.gre_study_backend.deck.dto.response.DeckInfoResponse;
+import com.grestudy.gre_study_backend.deck.web.CardDeckController;
 import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
 import com.grestudy.gre_study_backend.deck.dto.request.AddWordToDeckRequest;
 import com.grestudy.gre_study_backend.deck.domain.CardDeck;
@@ -9,6 +11,8 @@ import com.grestudy.gre_study_backend.vocabulary.domain.Vocabulary;
 import com.grestudy.gre_study_backend.deck.repository.CardDeckRepository;
 import com.grestudy.gre_study_backend.deck.repository.CardDeckVocabularyRepository;
 import com.grestudy.gre_study_backend.vocabulary.repository.VocabRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +22,7 @@ public class CardDeckService {
     private final CardDeckRepository cardDeckRepository;
     private final VocabRepository vocabRepository;
     private final CardDeckVocabularyRepository cardDeckVocabularyRepository;
+    private static final Logger log = LoggerFactory.getLogger(CardDeckService.class);
 
     public CardDeckService(CardDeckRepository cardDeckRepository, VocabRepository vocabRepository, CardDeckVocabularyRepository cardDeckVocabularyRepository) {
         this.cardDeckRepository = cardDeckRepository;
@@ -54,5 +59,11 @@ public class CardDeckService {
         link.setMastered(false);
 
         cardDeckVocabularyRepository.save(link);
+    }
+
+    public List<DeckInfoResponse> getAllDeckInfo(){
+        log.info("Getall info" + cardDeckRepository.getAllDeckInfo());
+
+        return cardDeckRepository.getAllDeckInfo().stream().map(i -> new DeckInfoResponse(i.getId(), i.getName(), i.getDescription())).toList();
     }
 }

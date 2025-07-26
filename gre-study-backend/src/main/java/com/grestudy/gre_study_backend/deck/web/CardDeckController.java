@@ -3,6 +3,7 @@ package com.grestudy.gre_study_backend.deck.web;
 import com.grestudy.gre_study_backend.deck.dto.request.AddDeckRequest;
 import com.grestudy.gre_study_backend.deck.dto.request.AddWordToDeckRequest;
 import com.grestudy.gre_study_backend.deck.domain.CardDeck;
+import com.grestudy.gre_study_backend.deck.dto.response.DeckInfoResponse;
 import com.grestudy.gre_study_backend.deck.service.CardDeckService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,15 @@ public class CardDeckController {
         } catch (Exception e){
             return ResponseEntity.status(404).body(e.getMessage()); // Do error code later
         }
+    }
 
+    @GetMapping("/get-all-deck-info")
+    public ResponseEntity<?> getAllDeckInfo(){
+        try {
+            List<DeckInfoResponse> response = cardDeckService.getAllDeckInfo();
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

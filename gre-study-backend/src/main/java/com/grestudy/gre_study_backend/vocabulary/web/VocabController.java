@@ -2,6 +2,7 @@ package com.grestudy.gre_study_backend.vocabulary.web;
 
 import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
 import com.grestudy.gre_study_backend.vocabulary.domain.Vocabulary;
+import com.grestudy.gre_study_backend.vocabulary.dto.response.WordsResponse;
 import com.grestudy.gre_study_backend.vocabulary.service.VocabService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
@@ -25,8 +27,9 @@ public class VocabController {
         log.info("ALL WORDS HIT");
         try {
             List<Vocabulary> words = vocabService.getAll();
-            log.info("Found words: " + words);
-            return ResponseEntity.ok(words);
+            List<WordsResponse> response = words.stream().map(w -> new WordsResponse(w.getId(),w.getWord(), w.getDefinition())).toList();
+            log.info("Found words: " + response);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(500).body(e.getMessage());
         }
