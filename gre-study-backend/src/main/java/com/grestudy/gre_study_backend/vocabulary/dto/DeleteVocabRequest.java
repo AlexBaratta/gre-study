@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class DeleteVocabRequest {
-    private long id;
+  private long id;
 }

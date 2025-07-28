@@ -2,7 +2,6 @@ package com.grestudy.gre_study_backend.deck.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-
 import java.io.Serializable;
 import java.util.Objects;
 

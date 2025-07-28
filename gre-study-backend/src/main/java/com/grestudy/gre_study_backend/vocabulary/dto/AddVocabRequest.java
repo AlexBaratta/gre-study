@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddVocabRequest {
-    private String word;
-    private String definition;
+  private String word;
+  private String definition;
 }

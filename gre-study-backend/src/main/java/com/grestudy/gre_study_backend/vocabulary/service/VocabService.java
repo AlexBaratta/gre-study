@@ -1,12 +1,11 @@
 package com.grestudy.gre_study_backend.vocabulary.service;
 
-import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
 import com.grestudy.gre_study_backend.vocabulary.domain.Vocabulary;
+import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
 import com.grestudy.gre_study_backend.vocabulary.repository.VocabRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
 
 @Service
 public class VocabService {

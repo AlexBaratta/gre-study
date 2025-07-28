@@ -1,16 +1,14 @@
 package com.grestudy.gre_study_backend.vocabulary.web;
 
-import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
 import com.grestudy.gre_study_backend.vocabulary.domain.Vocabulary;
+import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
 import com.grestudy.gre_study_backend.vocabulary.dto.response.WordsResponse;
 import com.grestudy.gre_study_backend.vocabulary.service.VocabService;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")

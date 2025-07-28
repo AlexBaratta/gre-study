@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddDeckRequest {
-    private String name;
-    private String description;
+  private String name;
+  private String description;
 }

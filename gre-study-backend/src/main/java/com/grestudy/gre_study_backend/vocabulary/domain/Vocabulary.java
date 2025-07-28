@@ -2,12 +2,11 @@ package com.grestudy.gre_study_backend.vocabulary.domain;
 
 import com.grestudy.gre_study_backend.deck.domain.CardDeckVocabulary;
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Getter

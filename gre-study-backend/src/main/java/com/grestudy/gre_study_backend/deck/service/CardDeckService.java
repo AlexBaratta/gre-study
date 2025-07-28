@@ -18,60 +18,68 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CardDeckService {
-    private final CardDeckRepository cardDeckRepository;
-    private final VocabRepository vocabRepository;
-    private final CardDeckVocabularyRepository cardDeckVocabularyRepository;
-    private static final Logger log = LoggerFactory.getLogger(CardDeckService.class);
+  private static final Logger log = LoggerFactory.getLogger(CardDeckService.class);
+  private final CardDeckRepository cardDeckRepository;
+  private final VocabRepository vocabRepository;
+  private final CardDeckVocabularyRepository cardDeckVocabularyRepository;
 
-    public CardDeckService(CardDeckRepository cardDeckRepository, VocabRepository vocabRepository, CardDeckVocabularyRepository cardDeckVocabularyRepository) {
-        this.cardDeckRepository = cardDeckRepository;
-        this.vocabRepository = vocabRepository;
-        this.cardDeckVocabularyRepository = cardDeckVocabularyRepository;
-    }
+  public CardDeckService(
+      CardDeckRepository cardDeckRepository,
+      VocabRepository vocabRepository,
+      CardDeckVocabularyRepository cardDeckVocabularyRepository) {
+    this.cardDeckRepository = cardDeckRepository;
+    this.vocabRepository = vocabRepository;
+    this.cardDeckVocabularyRepository = cardDeckVocabularyRepository;
+  }
 
   public List<CardDeck> getAll() {
-        return cardDeckRepository.findAll();
-    }
+    return cardDeckRepository.findAll();
+  }
 
   public CardDeck addNewDeck(AddDeckRequest request) {
     if (cardDeckRepository.findByName(request.getName()).isPresent()) {
-            throw new RuntimeException("Deck with name already exists");
-        }
-        CardDeck newDeck = new CardDeck(request.getName(), request.getDescription());
-        cardDeckRepository.save(newDeck);
-        return newDeck;
+      throw new RuntimeException("Deck with name already exists");
     }
+    CardDeck newDeck = new CardDeck(request.getName(), request.getDescription());
+    cardDeckRepository.save(newDeck);
+    return newDeck;
+  }
 
   public void addCardToDeck(AddWordToDeckRequest request) {
-        AddVocabRequest vocabRequest = request.getVocabRequest();
-        Long deckId = request.getId();
+    AddVocabRequest vocabRequest = request.getVocabRequest();
+    Long deckId = request.getId();
 
-        Vocabulary newWord = new Vocabulary(vocabRequest.getWord(), vocabRequest.getDefinition());
-        vocabRepository.save(newWord);
+    Vocabulary newWord = new Vocabulary(vocabRequest.getWord(), vocabRequest.getDefinition());
+    vocabRepository.save(newWord);
 
-        CardDeck deck = cardDeckRepository.findById(deckId).orElseThrow(() -> new RuntimeException("Deck not found. ID:" + deckId));
+    CardDeck deck =
+        cardDeckRepository
+            .findById(deckId)
+            .orElseThrow(() -> new RuntimeException("Deck not found. ID:" + deckId));
 
-        CardDeckVocabulary link = new CardDeckVocabulary();
-        link.setCardDeck(deck);
-        link.setVocabulary(newWord);
-        link.setProgress(0);
-        link.setMastered(false);
+    CardDeckVocabulary link = new CardDeckVocabulary();
+    link.setCardDeck(deck);
+    link.setVocabulary(newWord);
+    link.setProgress(0);
+    link.setMastered(false);
 
-        cardDeckVocabularyRepository.save(link);
-    }
+    cardDeckVocabularyRepository.save(link);
+  }
 
   public List<DeckInfoResponse> getAllDeckInfo() {
-        log.info("Getall info" + cardDeckRepository.getAllDeckInfo());
+    log.info("Getall info" + cardDeckRepository.getAllDeckInfo());
 
-        return cardDeckRepository.getAllDeckInfo().stream().map(i -> new DeckInfoResponse(i.getId(), i.getName(), i.getDescription())).toList();
-    }
+    return cardDeckRepository.getAllDeckInfo().stream()
+        .map(i -> new DeckInfoResponse(i.getId(), i.getName(), i.getDescription()))
+        .toList();
+  }
 
   public List<DeckCardResponse> getCards(Long id) {
     return cardDeckVocabularyRepository.findByCardDeckId(id).stream()
         .map(
             p ->
                 new DeckCardResponse(
-                        id, p.getVocabulary().getWord(), p.getVocabulary().getDefinition()))
+                    id, p.getVocabulary().getWord(), p.getVocabulary().getDefinition()))
         .toList();
   }
 }
