@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { instance } from "./axiosInstace";
+import { instance } from "./axiosInstance";
 
 export const useWords = () => {
   console.log("Getting words");

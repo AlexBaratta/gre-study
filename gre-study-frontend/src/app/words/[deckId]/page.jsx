@@ -1,19 +1,27 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { instance } from "../utils/axiosInstace";
+import { instance } from "../../utils/axiosInstance";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { toast, ToastContainer } from "react-toastify";
 import ReactPaginate from "react-paginate";
-import { useWords } from "../utils/fetchWordsUtils";
 
 const PER_PAGE = 20;
 
 export default function ViewWordsPage() {
+  const params = useParams();
+  const deckId = params.deckId;
+
+  console.log("Params", params);
   const qc = useQueryClient();
-  const { data, isLoading, isError, error } = useWords();
+  const { data, isLoading, isError, error } = useQuery({
+    queryFn: () => instance.get(`/get-cards/${deckId}`).then((res) => res.data),
+    queryKey: [`${deckId}-words`],
+    staleTime: 1000 * 60 * 5,
+  });
 
   const words = Array.isArray(data) ? data : data?.content ?? [];
 
