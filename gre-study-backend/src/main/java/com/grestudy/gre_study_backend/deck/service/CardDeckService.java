@@ -1,21 +1,20 @@
 package com.grestudy.gre_study_backend.deck.service;
 
-import com.grestudy.gre_study_backend.deck.dto.request.AddDeckRequest;
-import com.grestudy.gre_study_backend.deck.dto.response.DeckInfoResponse;
-import com.grestudy.gre_study_backend.deck.web.CardDeckController;
-import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
-import com.grestudy.gre_study_backend.deck.dto.request.AddWordToDeckRequest;
 import com.grestudy.gre_study_backend.deck.domain.CardDeck;
 import com.grestudy.gre_study_backend.deck.domain.CardDeckVocabulary;
-import com.grestudy.gre_study_backend.vocabulary.domain.Vocabulary;
+import com.grestudy.gre_study_backend.deck.dto.request.AddDeckRequest;
+import com.grestudy.gre_study_backend.deck.dto.request.AddWordToDeckRequest;
+import com.grestudy.gre_study_backend.deck.dto.response.DeckCardResponse;
+import com.grestudy.gre_study_backend.deck.dto.response.DeckInfoResponse;
 import com.grestudy.gre_study_backend.deck.repository.CardDeckRepository;
 import com.grestudy.gre_study_backend.deck.repository.CardDeckVocabularyRepository;
+import com.grestudy.gre_study_backend.vocabulary.domain.Vocabulary;
+import com.grestudy.gre_study_backend.vocabulary.dto.AddVocabRequest;
 import com.grestudy.gre_study_backend.vocabulary.repository.VocabRepository;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CardDeckService {
@@ -30,12 +29,12 @@ public class CardDeckService {
         this.cardDeckVocabularyRepository = cardDeckVocabularyRepository;
     }
 
-    public List<CardDeck> getAll(){
+  public List<CardDeck> getAll() {
         return cardDeckRepository.findAll();
     }
 
-    public CardDeck addNewDeck(AddDeckRequest request){
-        if (cardDeckRepository.findByName(request.getName()).isPresent()){
+  public CardDeck addNewDeck(AddDeckRequest request) {
+    if (cardDeckRepository.findByName(request.getName()).isPresent()) {
             throw new RuntimeException("Deck with name already exists");
         }
         CardDeck newDeck = new CardDeck(request.getName(), request.getDescription());
@@ -43,7 +42,7 @@ public class CardDeckService {
         return newDeck;
     }
 
-    public void addCardToDeck(AddWordToDeckRequest request){
+  public void addCardToDeck(AddWordToDeckRequest request) {
         AddVocabRequest vocabRequest = request.getVocabRequest();
         Long deckId = request.getId();
 
@@ -61,9 +60,18 @@ public class CardDeckService {
         cardDeckVocabularyRepository.save(link);
     }
 
-    public List<DeckInfoResponse> getAllDeckInfo(){
+  public List<DeckInfoResponse> getAllDeckInfo() {
         log.info("Getall info" + cardDeckRepository.getAllDeckInfo());
 
         return cardDeckRepository.getAllDeckInfo().stream().map(i -> new DeckInfoResponse(i.getId(), i.getName(), i.getDescription())).toList();
     }
+
+  public List<DeckCardResponse> getCards(Long id) {
+    return cardDeckVocabularyRepository.findByCardDeckId(id).stream()
+        .map(
+            p ->
+                new DeckCardResponse(
+                        id, p.getVocabulary().getWord(), p.getVocabulary().getDefinition()))
+        .toList();
+  }
 }
