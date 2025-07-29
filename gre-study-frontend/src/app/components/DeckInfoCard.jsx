@@ -14,7 +14,7 @@ export default function DeckInfoCard({ deckInfo }) {
       {deckInfo.map(({ id, name, description }) => (
         <li
           key={id}
-          className="flex justify-between gap-x-6 py-5 hover:bg-gray-100"
+          className="flex justify-between gap-x-6 py-5 hover:bg-gray-100 rounded"
           onClick={() => handleDeckClick(id)}
         >
           <div className="min-w-0 flex-auto pl-4">

@@ -8,4 +8,5 @@ import lombok.Setter;
 public class AddDeckRequest {
   private String name;
   private String description;
+  // vocabulary stuff here
 }
