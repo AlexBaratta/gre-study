@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { TrashIcon } from "@heroicons/react/24/outline";
-export default function DeckInfoCard({ deckInfo }) {
+export default function DeckInfoCard({ deckInfo, handleDelete }) {
   const router = useRouter();
   if (!deckInfo) return <div>No decks found</div>;
 
@@ -10,10 +10,6 @@ export default function DeckInfoCard({ deckInfo }) {
     router.push(`/words/${id}`);
   };
 
-  const handleDelete = (e) => {
-    e.stopPropagation();
-    alert("Clicked");
-  };
   return (
     <ul className="divide-y divide-gray-100">
       {deckInfo.map(({ id, title, description }) => (

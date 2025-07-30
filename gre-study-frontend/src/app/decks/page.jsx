@@ -5,10 +5,12 @@ import { instance } from "../utils/axiosInstance";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import DeckInfoCard from "../components/DeckInfoCard";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import ConfirmModal from "../components/ConfirmModal";
 export default function DecksPage() {
   const router = useRouter();
+  const [open, setOpen] = useState(false);
   const {
     data: deckInfo,
     isLoading,
@@ -37,9 +39,23 @@ export default function DecksPage() {
   if (isError) return <div>Error: {error}</div>;
   if (!deckInfo) return <div>No decks found</div>;
 
+  const handleDelete = (e) => {
+    // this is for the trash icon
+    e.stopPropagation();
+    setOpen(true);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
+  const handleConfirmDelete = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
-      <DeckInfoCard deckInfo={deckInfo} />
+      <DeckInfoCard deckInfo={deckInfo} handleDelete={handleDelete} />
       <div
         className="fixed bottom-0 right-0 hover:cursor-pointer text-gray-800"
         onClick={() => handleOpenCreate()}
@@ -47,6 +63,13 @@ export default function DecksPage() {
         <PlusCircleIcon className="w-13 h-13 m-7 transition duration-400 hover:scale-110 " />
       </div>
       <ToastContainer />
+      <ConfirmModal
+        visible={open}
+        title={"Delete Card Deck"}
+        message={`Are you sure you want to delete the *insert name here* card deck? This action cannot be undone.`}
+        onCancel={handleCancel}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 }
