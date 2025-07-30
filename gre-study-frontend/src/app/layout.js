@@ -2,7 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
 import ReactQueryProvider from "./ReactQueryProvider";
-
+import { ToastContainer } from "react-toastify";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,6 +28,7 @@ export default function RootLayout({ children }) {
           <Sidebar />
           <main className="flex-1 p-6">{children}</main>
         </ReactQueryProvider>
+        <ToastContainer />
       </body>
     </html>
   );

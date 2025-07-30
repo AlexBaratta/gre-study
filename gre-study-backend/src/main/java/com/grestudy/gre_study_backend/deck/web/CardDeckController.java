@@ -37,7 +37,7 @@ public class CardDeckController {
 
     @PostMapping("/create-new-deck")
     public ResponseEntity<?> addNewDeck(@RequestBody AddDeckRequest request) {
-        log.info("Adding deck:" + request.getName());
+        log.info("Adding deck:" + request.getDeckInfo().getTitle());
         try {
             cardDeckService.addNewDeck(request);
             return ResponseEntity.ok().build();
@@ -76,6 +76,17 @@ public class CardDeckController {
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/delete-deck/{id}")
+    public ResponseEntity<?> deleteDeck(@PathVariable Long id) {
+        try {
+            CardDeck deck = cardDeckService.deleteDeck(id);
+            return ResponseEntity.ok("Successfully deleted deck \"" + deck.getTitle() + "\"");
+
+        } catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
     }

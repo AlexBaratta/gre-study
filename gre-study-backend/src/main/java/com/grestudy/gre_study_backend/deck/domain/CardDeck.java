@@ -17,7 +17,7 @@ public class CardDeck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CARD_DECK_ID")
     private long id;
-    private String name;
+    private String title;
     private String description;
 
 
@@ -27,8 +27,8 @@ public class CardDeck {
     public CardDeck() {
     }
 
-    public CardDeck(String name, String description) {
-        this.name = name;
+    public CardDeck(String title, String description) {
+        this.title = title;
         this.description = description;
     }
 

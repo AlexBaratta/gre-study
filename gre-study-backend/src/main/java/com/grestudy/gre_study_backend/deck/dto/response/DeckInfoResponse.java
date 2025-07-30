@@ -7,12 +7,12 @@ import lombok.Setter;
 @Setter
 public class DeckInfoResponse {
   public Long id;
-  public String name;
+  public String title;
   public String description;
 
-  public DeckInfoResponse(Long id, String name, String description) {
+  public DeckInfoResponse(Long id, String title, String description) {
     this.id = id;
-    this.name = name;
+    this.title = title;
     this.description = description;
   }
 }

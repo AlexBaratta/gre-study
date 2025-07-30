@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DeckInfoForm from "../components/DeckInfoForm";
 import CardInput from "../components/CardInput";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { instance } from "../utils/axiosInstance";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function CreateDeckPage() {
+  const router = useRouter();
   const [deckInfo, setDeckInfo] = useState({ title: "", description: "" });
   const [cards, setCards] = useState([
     { word: "", definition: "", id: Date.now() },
@@ -34,17 +36,22 @@ export default function CreateDeckPage() {
     setCards([...cards, { word: "", definition: "", id: Date.now() }]);
   };
 
-  const { mutate: createDeck, isPending: loading } = useMutation({
-    mutationFn: ({ deckInfo, cards }) => {
+  const resetForm = () => {
+    setCards([{ word: "", definition: "", id: "" }]);
+    setDeckInfo({ title: "", description: "" });
+  };
+
+  const { mutate: createDeck, isPending } = useMutation({
+    mutationFn: ({ deckInfo, cards }) =>
       //! drop card id here
       instance
         .post("/create-new-deck", { deckInfo, cards })
-        .then((res) => res.data);
-    },
+        .then((res) => res.data),
     onSuccess: () => {
-      toast.success("Successfully created new deck,");
-      setCards([]);
-      setDeckInfo([]);
+      resetForm();
+      localStorage.setItem("deckCreated", "true");
+      router.push("/decks");
+
       // maybe invalidate a query here
     },
     onError: (err) => {
