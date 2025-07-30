@@ -121,7 +121,7 @@ export default function ViewAllWordsPage() {
               <td className="px-6 py-4">{word}</td>
               <td className="px-6 py-4">{definition}</td>
               <td
-                className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 hover:text-red-600 focus:text-red-600 transition-opacity"
+                className="opacity-0 [@media(any-hover:_none)]:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 hover:text-red-600 focus:text-red-600 transition-opacity"
                 onClick={() => deleteWord({ id })}
               >
                 <TrashIcon className="w-4 h-4 mr-4" />
