@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
-export default function DeckInfoCard({ deckInfo }) {
+import { TrashIcon } from "@heroicons/react/24/outline";
+export default function DeckInfoCard({ deckInfo, handleDelete }) {
   const router = useRouter();
   if (!deckInfo) return <div>No decks found</div>;
 
@@ -11,17 +12,23 @@ export default function DeckInfoCard({ deckInfo }) {
 
   return (
     <ul className="divide-y divide-gray-100">
-      {deckInfo.map(({ id, name, description }) => (
+      {deckInfo.map(({ id, title, description }) => (
         <li
           key={id}
-          className="flex justify-between gap-x-6 py-5 hover:bg-gray-100"
+          className="group flex justify-between gap-x-6 py-5 transition duration-300 hover:bg-gray-100 rounded"
           onClick={() => handleDeckClick(id)}
         >
           <div className="min-w-0 flex-auto pl-4">
-            <p className="text-sm/6 font-semibold text-gray-900">{name}</p>
+            <p className="text-sm/6 font-semibold text-gray-900">{title}</p>
             <p className="mt-1 truncate text-xs/5 text-gray-500">
               {description}
             </p>
+          </div>
+          <div
+            className="flex items-center opacity-0 [@media(any-hover:_none)]:opacity-100 transition duration-300 group-hover:opacity-100 hover:text-red-500 "
+            onClick={(e) => handleDelete(e, id)}
+          >
+            <TrashIcon className="h-5 w-5 mr-4" />
           </div>
         </li>
       ))}
