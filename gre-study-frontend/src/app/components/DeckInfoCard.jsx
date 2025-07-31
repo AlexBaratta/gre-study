@@ -26,7 +26,7 @@ export default function DeckInfoCard({ deckInfo, handleDelete }) {
           </div>
           <div
             className="flex items-center opacity-0 [@media(any-hover:_none)]:opacity-100 transition duration-300 group-hover:opacity-100 hover:text-red-500 "
-            onClick={(e) => handleDelete(e)}
+            onClick={(e) => handleDelete(e, id)}
           >
             <TrashIcon className="h-5 w-5 mr-4" />
           </div>
