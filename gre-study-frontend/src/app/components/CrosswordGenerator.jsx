@@ -1,22 +1,45 @@
 "use client";
-import Crossword from "@jaredreisinger/react-crossword";
+import Crossword, {
+  CrosswordGrid,
+  CrosswordProvider,
+  DirectionClues,
+} from "@jaredreisinger/react-crossword";
 import { generateLayout } from "crossword-layout-generator";
-import { useEffect, useState } from "react";
-import log from "../utils/logger.js"
+import { useEffect, useRef, useState } from "react";
+import log from "../utils/logger.js";
+import { useRouter } from "next/navigation.js";
 
 export default function CrosswordGenerator({ words }) {
-  log.debug("Words:", words)
+  log.debug("Words:", words);
+  const router = useRouter();
+  const crosswordRef = useRef(null);
   const [data, setData] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [incorrectAnswers, setIncorrectAnswers] = useState([]);
+  const [showStatus, setShowStatus] = useState(false);
 
   const checkAnswers = () => {
+    setShowStatus(true);
+    console.log(incorrectAnswers);
     if (isCorrect) {
       alert("YIPPPPIEE YOU DID IT");
-    } else {
-      alert(
-        "YIIIKESSSSSS. YOU TOTALLY DID SOMETHING WRONG!!! IDK WHAT THO CUS IDK HOW TO CHECK INDIVIDUAL WORDS YET"
-      );
     }
+  };
+
+  const onAnswerIncorrect = (direction, number, answer) => {
+    setIncorrectAnswers((prev) => ({
+      ...prev,
+      [`${direction}-${number}`]: answer,
+    }));
+  };
+
+  const onAnswerCorrect = (direction, number, answer) => {
+    const key = `${direction}-${number}`;
+    setIncorrectAnswers((prev) => {
+      const updated = { ...prev };
+      delete updated[key];
+      return updated;
+    });
   };
 
   useEffect(() => {
@@ -69,11 +92,43 @@ export default function CrosswordGenerator({ words }) {
   }
 
   return (
-    <div>
-      <Crossword data={data} onCrosswordCorrect={setIsCorrect} />
+    <div className="crossword">
+      <CrosswordProvider
+        ref={crosswordRef}
+        data={data}
+        onCrosswordCorrect={setIsCorrect}
+        onAnswerIncorrect={onAnswerIncorrect}
+        onAnswerCorrect={onAnswerCorrect}
+        onCellChange={() => setShowStatus(false)}
+      >
+        <CrosswordGrid />
+        {["across", "down"].map((direction) => (
+          <div key={direction}>
+            <h3>{direction.toUpperCase()}</h3>
+            <div>
+              {Object.entries(data[direction]).map(([number, clueData]) => {
+                const key = `${direction}-${number}`;
+                const isIncorrect = incorrectAnswers[key];
+
+                return (
+                  <div
+                    key={key}
+                    className={`clue ${
+                      isIncorrect && showStatus ? "incorrect" : ""
+                    }`}
+                  >
+                    <strong>{number}</strong>: {clueData.clue}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </CrosswordProvider>
+
       <button
         onClick={checkAnswers}
-        style={{ marginTop: "1rem", padding: "0.5rem 1rem" }}
+        className="bg-[#4D6F80] hover:bg-gray-300 text-white rounded p-2 mt-2"
       >
         Check Answers
       </button>
