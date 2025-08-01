@@ -102,28 +102,8 @@ export default function CrosswordGenerator({ words }) {
         onCellChange={() => setShowStatus(false)}
       >
         <CrosswordGrid />
-        {["across", "down"].map((direction) => (
-          <div key={direction}>
-            <h3>{direction.toUpperCase()}</h3>
-            <div>
-              {Object.entries(data[direction]).map(([number, clueData]) => {
-                const key = `${direction}-${number}`;
-                const isIncorrect = incorrectAnswers[key];
-
-                return (
-                  <div
-                    key={key}
-                    className={`clue ${
-                      isIncorrect && showStatus ? "incorrect" : ""
-                    }`}
-                  >
-                    <strong>{number}</strong>: {clueData.clue}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+        <DirectionClues direction="across" />
+        <DirectionClues direction="down" />
       </CrosswordProvider>
 
       <button
