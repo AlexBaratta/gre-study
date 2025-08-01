@@ -24,3 +24,14 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.crossword .clue.incorrect {
+  background-color: #ffe5e5;
+  border-left: 4px solid red;
+}
+
+.crossword .clue.correct {
+  background-color: #e0ffe0;
+  border-left: 4px solid green;
+  transition: all 0.3s ease;
+}
