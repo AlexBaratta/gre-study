@@ -76,21 +76,25 @@ export default function CreateDeckPage() {
         <DeckInfoForm {...deckInfo} onChange={handleDeckInfoChange} />
         {cards.map((card, index) => (
           <CardInput
+            key={index}
             index={index}
             card={card}
             onChange={handleCardInfoChange}
             onDelete={() => handleCardDelete(index)}
           />
         ))}
-        <div>
+        <div className="flex gap-2">
           <button
             type="button"
             onClick={handleAddCard}
-            className="bg-blue-500 rounded"
+            className="bg-blue-600 rounded text-white p-2 text-sm hover:bg-blue-500"
           >
             Add Card
           </button>
-          <button type="submit" className="bg-green-600 rounded">
+          <button
+            type="submit"
+            className="bg-green-700 rounded text-white p-2 text-sm hover:bg-green-600"
+          >
             Create Deck
           </button>
         </div>
