@@ -8,6 +8,7 @@ import { generateLayout } from "crossword-layout-generator";
 import { useEffect, useRef, useState } from "react";
 import log from "../utils/logger.js";
 import { useRouter } from "next/navigation.js";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function CrosswordGenerator({ words }) {
   log.debug("Words:", words);
@@ -22,7 +23,9 @@ export default function CrosswordGenerator({ words }) {
     setShowStatus(true);
     console.log(incorrectAnswers);
     if (isCorrect) {
-      alert("YIPPPPIEE YOU DID IT");
+      toast.success("YIPPPPIEE YOU DID IT.");
+    } else {
+      toast.error("Oops. Some word is wrong :(");
     }
   };
 
@@ -112,6 +115,7 @@ export default function CrosswordGenerator({ words }) {
       >
         Check Answers
       </button>
+      <ToastContainer />
     </div>
   );
 }
