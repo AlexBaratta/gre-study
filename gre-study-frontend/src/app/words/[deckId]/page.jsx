@@ -83,29 +83,31 @@ export default function ViewWordsPage() {
 
   return (
     <div className="flex flex-col overflow-x-auto">
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="›"
-        previousLabel="‹"
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={1}
-        pageCount={pageCount}
-        onPageChange={handlePageChange}
-        forcePage={page}
-        containerClassName="flex items-center gap-2 my-4"
-        pageClassName="list-none"
-        previousClassName="list-none"
-        nextClassName="list-none"
-        breakClassName="list-none"
-        activeClassName="active"
-        disabledClassName="opacity-50 pointer-events-none"
-        /* a */
-        pageLinkClassName="block px-3 py-1 border rounded"
-        previousLinkClassName="block px-3 py-1 border rounded"
-        nextLinkClassName="block px-3 py-1 border rounded"
-        breakLinkClassName="block px-3 py-1"
-        activeLinkClassName="bg-blue-500 text-white"
-      />
+      {words.size > 10 && (
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="›"
+          previousLabel="‹"
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={1}
+          pageCount={pageCount}
+          onPageChange={handlePageChange}
+          forcePage={page}
+          containerClassName="flex items-center gap-2 my-4"
+          pageClassName="list-none"
+          previousClassName="list-none"
+          nextClassName="list-none"
+          breakClassName="list-none"
+          activeClassName="active"
+          disabledClassName="opacity-50 pointer-events-none"
+          /* a */
+          pageLinkClassName="block px-3 py-1 border rounded"
+          previousLinkClassName="block px-3 py-1 border rounded"
+          nextLinkClassName="block px-3 py-1 border rounded"
+          breakLinkClassName="block px-3 py-1"
+          activeLinkClassName="bg-blue-500 text-white"
+        />
+      )}
 
       <table className="text-left table-auto">
         <thead className="text-xl py-4 uppercase bg-gray-200">

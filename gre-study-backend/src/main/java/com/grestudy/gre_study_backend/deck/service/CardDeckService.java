@@ -103,7 +103,7 @@ public class CardDeckService {
         .map(
             p ->
                 new DeckCardResponse(
-                    id, p.getVocabulary().getWord(), p.getVocabulary().getDefinition()))
+                    p.getVocabulary().getId(), p.getVocabulary().getWord(), p.getVocabulary().getDefinition()))
         .toList();
   }
 
