@@ -24,27 +24,38 @@ export default function CompleteDeckForm({
   };
 
   const handleAddCard = () => {
-    setCards([...cards, { word: "", definition: "", id: Date.now() }]);
+    setCards([
+      ...cards,
+      { word: "", definition: "", id: Date.now(), status: "created" },
+    ]);
   };
 
+  const handleEditCard = () => {};
+
   const handleCardDelete = (index) => {
-    const updatedCards = cards.filter((_, i) => i !== index);
+    const updatedCards = cards.map((card, i) =>
+      i === index ? { ...card, status: "delete" } : card
+    );
     setCards(updatedCards);
+    console.log(cards);
   };
 
   return (
     <div>
       <form id="deck-form" className="max-w" onSubmit={() => {}}>
         <DeckInfoForm {...deckInfo} onChange={handleDeckInfoChange} />
-        {cards.map((card, index) => (
-          <CardInput
-            key={index}
-            index={index}
-            card={card}
-            onChange={handleCardInfoChange}
-            onDelete={() => handleCardDelete(index)}
-          />
-        ))}
+        {cards &&
+          cards
+            .filter((card) => card.status !== "delete")
+            .map((card, index) => (
+              <CardInput
+                key={index}
+                index={index}
+                card={card}
+                onChange={handleCardInfoChange}
+                onDelete={() => handleCardDelete(index)}
+              />
+            ))}
         <div className="flex gap-2 justify-center">
           <button
             type="button"

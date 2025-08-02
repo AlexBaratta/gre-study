@@ -3,6 +3,7 @@ package com.grestudy.gre_study_backend.deck.web;
 import com.grestudy.gre_study_backend.deck.domain.CardDeck;
 import com.grestudy.gre_study_backend.deck.dto.request.AddDeckRequest;
 import com.grestudy.gre_study_backend.deck.dto.request.AddWordToDeckRequest;
+import com.grestudy.gre_study_backend.deck.dto.request.UpdateDeckRequest;
 import com.grestudy.gre_study_backend.deck.dto.response.DeckCardResponse;
 import com.grestudy.gre_study_backend.deck.dto.response.DeckInfoResponse;
 import com.grestudy.gre_study_backend.deck.service.CardDeckService;
@@ -88,6 +89,17 @@ public class CardDeckController {
 
         } catch (Exception e){
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/update-deck/{id}")
+    public ResponseEntity<?> updateDeck(@PathVariable Long id, @RequestBody UpdateDeckRequest request){
+        try {
+            log.info("UPDATE HIT");
+            CardDeck deck = cardDeckService.updateDeck(id, request);
+            return ResponseEntity.ok("Updated deck" + deck.getTitle());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage() + e.getCause());
         }
     }
 }

@@ -6,6 +6,7 @@ import com.grestudy.gre_study_backend.deck.dto.CardDTO;
 import com.grestudy.gre_study_backend.deck.dto.DeckInfoDTO;
 import com.grestudy.gre_study_backend.deck.dto.request.AddDeckRequest;
 import com.grestudy.gre_study_backend.deck.dto.request.AddWordToDeckRequest;
+import com.grestudy.gre_study_backend.deck.dto.request.UpdateDeckRequest;
 import com.grestudy.gre_study_backend.deck.dto.response.DeckCardResponse;
 import com.grestudy.gre_study_backend.deck.dto.response.DeckInfoResponse;
 import com.grestudy.gre_study_backend.deck.repository.CardDeckRepository;
@@ -119,6 +120,26 @@ public class CardDeckService {
     cardDeckVocabularyRepository.deleteAllByCardDeckId(deckId);
 
     cardDeckRepository.deleteById(deckId);
+
+    return deck;
+  }
+
+  @Transactional
+  public CardDeck updateDeck(Long deckId, UpdateDeckRequest request) {
+    CardDeck deck = cardDeckRepository.findById(deckId).orElseThrow(() -> new RuntimeException("Deck not found"));
+
+    List<Long> deleteIds = request.getToDeleteIds();
+    log.info("Delete ids" + deleteIds);
+
+    int deleted = cardDeckVocabularyRepository.deleteAllByCardDeckIdAndVocabularyIds(deckId, deleteIds);
+
+    if (deleted != deleteIds.size()){
+      throw new IllegalStateException("Not all entries were deleted");
+    }
+
+    log.info("Deleted " + deleted + " entries.");
+
+    vocabRepository.deleteAllById(deleteIds);
 
     return deck;
   }
