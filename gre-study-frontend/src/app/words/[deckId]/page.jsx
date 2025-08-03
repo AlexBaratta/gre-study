@@ -1,17 +1,19 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { instance } from "../../utils/axiosInstance";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { toast, ToastContainer } from "react-toastify";
 import ReactPaginate from "react-paginate";
+import FlashCard from "@/app/components/Flashcard";
 
 const PER_PAGE = 20;
 
 export default function ViewWordsPage() {
+  const router = useRouter();
   const params = useParams();
   const deckId = params.deckId;
 
@@ -25,6 +27,7 @@ export default function ViewWordsPage() {
 
   const words = Array.isArray(data) ? data : data?.content ?? [];
 
+  console.log("words", words);
   const [page, setPage] = useState(0);
 
   const pageCount = Math.ceil(words.length / PER_PAGE);
@@ -61,6 +64,13 @@ export default function ViewWordsPage() {
 
   const handlePageChange = ({ selected }) => setPage(selected);
 
+  const handleAddWord = () => {
+    console.log("Adding word");
+    router.push(`/words/${deckId}/edit`, {
+      state: words,
+    });
+  };
+
   if (isLoading) return <div>Loading words...</div>;
 
   if (isError) {
@@ -83,6 +93,9 @@ export default function ViewWordsPage() {
 
   return (
     <div className="flex flex-col overflow-x-auto">
+      <div className="flex justify-center items-center mt-2">
+        <FlashCard words={words} />
+      </div>
       {words.size > 10 && (
         <ReactPaginate
           breakLabel="..."
@@ -109,12 +122,11 @@ export default function ViewWordsPage() {
         />
       )}
 
-      <table className="text-left table-auto">
+      <table className="text-center table-auto max-w-400">
         <thead className="text-xl py-4 uppercase bg-gray-200">
           <tr className="bg-gray-200 uppercase text-sm tracking-wider">
             <th className="px-6 py-3 text-gray-700">Word</th>
             <th className="px-6 py-3 text-gray-700">Definition</th>
-            <th className="w-10 px-6 py-3 sr-only">Delete</th>
           </tr>
         </thead>
         <tbody className="py-4">
@@ -125,16 +137,18 @@ export default function ViewWordsPage() {
             >
               <td className="px-6 py-4">{word}</td>
               <td className="px-6 py-4">{definition}</td>
-              <td
-                className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 hover:text-red-600 focus:text-red-600 transition-opacity"
-                onClick={() => deleteWord({ id })}
-              >
-                <TrashIcon className="w-4 h-4 mr-4" />
-              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className="mt-4">
+        <button
+          className="bg-blue-500 rounded text-white p-2 hover:bg-blue-400"
+          onClick={handleAddWord}
+        >
+          Add word
+        </button>
+      </div>
 
       <ReactPaginate
         breakLabel="..."

@@ -6,7 +6,7 @@ export default function Sidebar() {
   const router = useRouter();
 
   return (
-    <aside className="sticky top-0 h-screen w-64 bg-gray-800 text-white p-4">
+    <aside className="sticky top-0 h-screen w-64 bg-[#F4CCCC] text-white p-4">
       <h2 className="text-xl font-bold mb-6">Menu</h2>
       <nav>
         <ul className="space-y-4">

@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { instance } from "../utils/axiosInstance";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import CompleteDeckForm from "../components/CompleteDeckForm";
 
 export default function CreateDeckPage() {
   const router = useRouter();
@@ -15,26 +16,6 @@ export default function CreateDeckPage() {
   const [cards, setCards] = useState([
     { word: "", definition: "", id: Date.now() },
   ]);
-  const handleDeckInfoChange = (e) => {
-    const { name, value } = e.target;
-    setDeckInfo({ ...deckInfo, [name]: value });
-  };
-
-  const handleCardInfoChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedCards = [...cards];
-    updatedCards[index][name] = value;
-    setCards(updatedCards);
-  };
-
-  const handleCardDelete = (index) => {
-    const updatedCards = cards.filter((_, i) => i !== index);
-    setCards(updatedCards);
-  };
-
-  const handleAddCard = () => {
-    setCards([...cards, { word: "", definition: "", id: Date.now() }]);
-  };
 
   const resetForm = () => {
     setCards([{ word: "", definition: "", id: "" }]);
@@ -63,6 +44,7 @@ export default function CreateDeckPage() {
   });
 
   const handleSubmit = async (e) => {
+    console.log("Submitting?");
     e.preventDefault();
     toast.dismiss();
     console.log("Submitted:", { ...deckInfo, cards });
@@ -71,34 +53,24 @@ export default function CreateDeckPage() {
   };
 
   return (
-    <div>
-      <form className="max-w" onSubmit={handleSubmit}>
-        <DeckInfoForm {...deckInfo} onChange={handleDeckInfoChange} />
-        {cards.map((card, index) => (
-          <CardInput
-            key={index}
-            index={index}
-            card={card}
-            onChange={handleCardInfoChange}
-            onDelete={() => handleCardDelete(index)}
-          />
-        ))}
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={handleAddCard}
-            className="bg-blue-600 rounded text-white p-2 text-sm hover:bg-blue-500"
-          >
-            Add Card
-          </button>
-          <button
-            type="submit"
-            className="bg-green-700 rounded text-white p-2 text-sm hover:bg-green-600"
-          >
-            Create Deck
-          </button>
-        </div>
-      </form>
+    <div className="">
+      <CompleteDeckForm
+        deckInfo={deckInfo}
+        setDeckInfo={setDeckInfo}
+        cards={cards}
+        setCards={setCards}
+      />
+
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          form="deck-form"
+          className="items-end bg-green-700 rounded text-white p-2 text-sm hover:bg-green-600"
+          onClick={handleSubmit}
+        >
+          Create Deck
+        </button>
+      </div>
     </div>
   );
 }

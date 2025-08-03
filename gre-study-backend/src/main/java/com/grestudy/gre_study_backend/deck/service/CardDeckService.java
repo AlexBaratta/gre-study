@@ -6,6 +6,7 @@ import com.grestudy.gre_study_backend.deck.dto.CardDTO;
 import com.grestudy.gre_study_backend.deck.dto.DeckInfoDTO;
 import com.grestudy.gre_study_backend.deck.dto.request.AddDeckRequest;
 import com.grestudy.gre_study_backend.deck.dto.request.AddWordToDeckRequest;
+import com.grestudy.gre_study_backend.deck.dto.request.UpdateDeckRequest;
 import com.grestudy.gre_study_backend.deck.dto.response.DeckCardResponse;
 import com.grestudy.gre_study_backend.deck.dto.response.DeckInfoResponse;
 import com.grestudy.gre_study_backend.deck.repository.CardDeckRepository;
@@ -103,7 +104,7 @@ public class CardDeckService {
         .map(
             p ->
                 new DeckCardResponse(
-                    p.getVocabulary().getId(), p.getVocabulary().getWord(), p.getVocabulary().getDefinition()))
+                    p.getVocabulary().getId(), p.getVocabulary().getWord(), p.getVocabulary().getDefinition(), "unchanged"))
         .toList();
   }
 
@@ -119,6 +120,50 @@ public class CardDeckService {
     cardDeckVocabularyRepository.deleteAllByCardDeckId(deckId);
 
     cardDeckRepository.deleteById(deckId);
+
+    return deck;
+  }
+
+  @Transactional
+  public CardDeck updateDeck(Long deckId, UpdateDeckRequest request) {
+    CardDeck deck = cardDeckRepository.findById(deckId).orElseThrow(() -> new RuntimeException("Deck not found"));
+
+    // Delete portion
+    List<Long> deleteIds = request.getToDeleteIds();
+
+    int deleted = cardDeckVocabularyRepository.deleteAllByCardDeckIdAndVocabularyIds(deckId, deleteIds);
+
+    if (deleted != deleteIds.size()){
+      throw new IllegalStateException("Not all entries were deleted");
+    }
+
+    vocabRepository.deleteAllById(deleteIds);
+
+    // Update Portion
+    List<CardDTO> toEdit = request.getToEditCards();
+
+    for (CardDTO c : toEdit){
+      int updated = vocabRepository.updateAllById(c.getId(), c.getWord(), c.getDefinition());
+      if (updated != 1){
+        throw new IllegalStateException("Failed updating an entry");
+      }
+    }
+
+    // New portion
+    List<CardDTO> toCreate = request.getToCreateCards();
+
+    for (CardDTO c : toCreate){
+      Vocabulary v = new Vocabulary(c.getWord(), c.getDefinition());
+      vocabRepository.save(v);
+
+      CardDeckVocabulary link = new CardDeckVocabulary();
+      link.setCardDeck(deck);
+      link.setVocabulary(v);
+      link.setProgress(0);
+      link.setMastered(false);
+
+      cardDeckVocabularyRepository.save(link);
+    }
 
     return deck;
   }
