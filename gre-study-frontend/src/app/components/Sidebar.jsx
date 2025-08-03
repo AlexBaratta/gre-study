@@ -7,7 +7,7 @@ export default function Sidebar() {
 
   return (
     <aside className="sticky top-0 h-screen w-64 bg-primary text-accent p-4 px-5">
-      <h2 className="text-3xl font-bold mb-6 px-3">Menu</h2>
+      <h2 className="text-3xl font-bold mb-6 px-3">Ari's Study Website</h2>
       <nav>
         <ul className="space-y-4 text-xl font-bold">
           <li>
