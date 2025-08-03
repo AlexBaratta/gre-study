@@ -150,7 +150,14 @@ export default function ViewWordsPage() {
           ))}
         </tbody>
       </table>
-
+      <div className="mt-4">
+        <button
+          className="bg-accent rounded text-white p-2 hover:bg-primary"
+          onClick={handleAddWord}
+        >
+          Add word
+        </button>
+      </div>
       {amountOfWords > 10 && (
         <ReactPaginate
           breakLabel="..."
