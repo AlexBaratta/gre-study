@@ -26,6 +26,7 @@ export default function ViewWordsPage() {
   });
 
   const words = Array.isArray(data) ? data : data?.content ?? [];
+  const amountOfWords = words.length;
 
   console.log("words", words);
   const [page, setPage] = useState(0);
@@ -96,7 +97,7 @@ export default function ViewWordsPage() {
       <div className="flex justify-center items-center mt-2">
         <FlashCard words={words} />
       </div>
-      {words.size > 10 && (
+      <div className="flex justify-between items-center">
         <ReactPaginate
           breakLabel="..."
           nextLabel="›"
@@ -114,65 +115,67 @@ export default function ViewWordsPage() {
           activeClassName="active"
           disabledClassName="opacity-50 pointer-events-none"
           /* a */
-          pageLinkClassName="block px-3 py-1 border rounded"
-          previousLinkClassName="block px-3 py-1 border rounded"
-          nextLinkClassName="block px-3 py-1 border rounded"
-          breakLinkClassName="block px-3 py-1"
-          activeLinkClassName="bg-blue-500 text-white"
+          pageLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+          previousLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+          nextLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+          breakLinkClassName="block px-3 py-1 text-accent"
+          activeLinkClassName="bg-accent text-primary"
         />
-      )}
 
-      <table className="text-center table-auto max-w-400">
+        <p className="flex align-center text-accent font-semibold">
+          {amountOfWords} words
+        </p>
+      </div>
+
+      <table className="text-left table-auto rounded-lg overflow-hidden bg-white">
         <thead className="text-xl py-4 uppercase bg-gray-200">
-          <tr className="bg-gray-200 uppercase text-sm tracking-wider">
+          <tr className="bg-primary uppercase text-sm tracking-wider">
             <th className="px-6 py-3 text-gray-700">Word</th>
             <th className="px-6 py-3 text-gray-700">Definition</th>
+            <th className="w-10 px-6 py-3 sr-only">Delete</th>
           </tr>
         </thead>
         <tbody className="py-4">
           {current.map(({ id, word, definition }) => (
-            <tr
-              key={id}
-              className="group border-b border-l border-r border-gray-200"
-            >
+            <tr key={id} className="group border-b border-primary">
               <td className="px-6 py-4">{word}</td>
               <td className="px-6 py-4">{definition}</td>
+              <td
+                className="opacity-0 [@media(any-hover:_none)]:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 hover:text-red-600 focus:text-red-600 transition-opacity"
+                onClick={() => deleteWord({ id })}
+              >
+                <TrashIcon className="w-4 h-4 mr-4" />
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="mt-4">
-        <button
-          className="bg-blue-500 rounded text-white p-2 hover:bg-blue-400"
-          onClick={handleAddWord}
-        >
-          Add word
-        </button>
-      </div>
 
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="›"
-        previousLabel="‹"
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={1}
-        pageCount={pageCount}
-        onPageChange={handlePageChange}
-        forcePage={page}
-        containerClassName="flex items-center gap-2 my-4"
-        pageClassName="list-none"
-        previousClassName="list-none"
-        nextClassName="list-none"
-        breakClassName="list-none"
-        activeClassName="active"
-        disabledClassName="opacity-50 pointer-events-none"
-        /* a */
-        pageLinkClassName="block px-3 py-1 border rounded"
-        previousLinkClassName="block px-3 py-1 border rounded"
-        nextLinkClassName="block px-3 py-1 border rounded"
-        breakLinkClassName="block px-3 py-1"
-        activeLinkClassName="bg-blue-500 text-white"
-      />
+      {amountOfWords > 10 && (
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="›"
+          previousLabel="‹"
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={1}
+          pageCount={pageCount}
+          onPageChange={handlePageChange}
+          forcePage={page}
+          containerClassName="flex items-center gap-2 my-4"
+          pageClassName="list-none"
+          previousClassName="list-none"
+          nextClassName="list-none"
+          breakClassName="list-none"
+          activeClassName="active"
+          disabledClassName="opacity-50 pointer-events-none"
+          /* a */
+          pageLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+          previousLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+          nextLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+          breakLinkClassName="block px-3 py-1 text-accent"
+          activeLinkClassName="bg-accent text-primary"
+        />
+      )}
 
       <ToastContainer />
     </div>

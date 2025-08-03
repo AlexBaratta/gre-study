@@ -103,6 +103,11 @@ export default function CrosswordGenerator({ words }) {
         onAnswerIncorrect={onAnswerIncorrect}
         onAnswerCorrect={onAnswerCorrect}
         onCellChange={() => setShowStatus(false)}
+        theme={{
+          gridBackground: "#fff6f8",
+          cellBackground: "#fee8ea",
+          highlightBackground: "#eba4a1",
+        }}
       >
         <CrosswordGrid />
         <DirectionClues direction="across" />
