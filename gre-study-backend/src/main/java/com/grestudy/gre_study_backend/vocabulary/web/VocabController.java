@@ -54,4 +54,15 @@ public class VocabController {
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }
+
+    @GetMapping("/capitalize")
+    public ResponseEntity<?> capitalizeDB(){
+        log.info("CAPITALIZE");
+        try {
+            vocabService.capitalizeDBWords();;
+            return ResponseEntity.ok().build();
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage() + e.getCause());
+        }
+    }
 }

@@ -21,6 +21,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class CardDeckService {
@@ -153,7 +154,7 @@ public class CardDeckService {
     List<CardDTO> toCreate = request.getToCreateCards();
 
     for (CardDTO c : toCreate){
-      Vocabulary v = new Vocabulary(c.getWord(), c.getDefinition());
+      Vocabulary v = new Vocabulary(StringUtils.capitalize(c.getWord()), StringUtils.capitalize(c.getDefinition()));
       vocabRepository.save(v);
 
       CardDeckVocabulary link = new CardDeckVocabulary();
