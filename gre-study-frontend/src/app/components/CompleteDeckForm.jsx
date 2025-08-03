@@ -19,18 +19,27 @@ export default function CompleteDeckForm({
   const handleCardInfoChange = (index, e) => {
     const { name, value } = e.target;
     const updatedCards = [...cards];
-    updatedCards[index][name] = value;
+    const card = updatedCards[index];
+    card[name] = value;
+
+    if (card.status !== "create") {
+      card.status = "edit";
+    }
+
+    updatedCards[index] = card;
     setCards(updatedCards);
   };
 
   const handleAddCard = () => {
     setCards([
       ...cards,
-      { word: "", definition: "", id: Date.now(), status: "created" },
+      { word: "", definition: "", id: Date.now(), status: "create" },
     ]);
   };
 
-  const handleEditCard = () => {};
+  const handleEditCard = () => {
+    setCards([...cards, {}]);
+  };
 
   const handleCardDelete = (index) => {
     const updatedCards = cards.map((card, i) =>
@@ -42,7 +51,13 @@ export default function CompleteDeckForm({
 
   return (
     <div>
-      <form id="deck-form" className="max-w" onSubmit={() => {}}>
+      <form
+        id="deck-form"
+        className="max-w"
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <DeckInfoForm {...deckInfo} onChange={handleDeckInfoChange} />
         {cards &&
           cards

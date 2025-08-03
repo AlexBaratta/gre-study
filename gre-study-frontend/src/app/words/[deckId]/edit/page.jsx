@@ -3,10 +3,12 @@ import CardInput from "@/app/components/CardInput";
 import CompleteDeckForm from "@/app/components/CompleteDeckForm";
 import { instance } from "@/app/utils/axiosInstance";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function EditDeckPage() {
+  const router = useRouter();
+  const qc = useQueryClient();
   const params = useParams();
   const deckId = params.deckId;
   console.log("Params", params);
@@ -22,10 +24,21 @@ export default function EditDeckPage() {
   const [deckInfo, setDeckInfo] = useState({ title: "", description: "" });
 
   const { mutate: updateDeck } = useMutation({
-    mutationFn: async ({ deckId, toDeleteIds }) =>
-      instance.put(`/update-deck/${deckId}`, { toDeleteIds }),
+    mutationFn: async ({ deckId, toDeleteIds, toEditCards, toCreateCards }) =>
+      instance.put(`/update-deck/${deckId}`, {
+        toDeleteIds,
+        toEditCards,
+        toCreateCards,
+      }),
     onSuccess: () => {
       //something
+      qc.invalidateQueries({
+        queryKey: [`${deckId}-words`],
+        queryKey: ["words"],
+      });
+      localStorage.setItem("deckUpdated", "true");
+      console.log("Success!");
+      router.push(`/words/${deckId}/`);
     },
     onError: (err) => {
       if (axios.isAxiosError(err)) {
@@ -48,8 +61,15 @@ export default function EditDeckPage() {
     const toDeleteIds = cards
       .filter((c) => c.status === "delete" && c.id)
       .map((c) => c.id);
-    console.log("Delete ids", toDeleteIds);
-    updateDeck({ deckId, toDeleteIds });
+    const toEditCards = cards.filter((c) => c.status === "edit" && c.id);
+    const toCreateCards = cards
+      .filter((c) => c.status === "create")
+      .map((c) => ({
+        word: c.word,
+        definition: c.definition,
+        status: c.status,
+      }));
+    updateDeck({ deckId, toDeleteIds, toEditCards, toCreateCards });
   };
 
   return (
@@ -62,12 +82,11 @@ export default function EditDeckPage() {
       />
       <div className="flex justify-end">
         <button
-          type="submit"
-          form="deck-form"
+          type="button"
           className="items-end bg-green-700 rounded text-white p-2 text-sm hover:bg-green-600"
           onClick={handleSubmit}
         >
-          Create Deck
+          Update Deck
         </button>
       </div>
     </div>

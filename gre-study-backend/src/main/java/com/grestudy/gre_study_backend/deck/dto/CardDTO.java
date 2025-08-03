@@ -9,8 +9,8 @@ import lombok.ToString;
 @ToString
 public class CardDTO {
     private Long id;
-    public String word;
-    public String definition;
-    public String status;
+    private String word;
+    private String definition;
+    private String status;
 }
 

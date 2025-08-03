@@ -104,7 +104,7 @@ public class CardDeckService {
         .map(
             p ->
                 new DeckCardResponse(
-                    p.getVocabulary().getId(), p.getVocabulary().getWord(), p.getVocabulary().getDefinition()))
+                    p.getVocabulary().getId(), p.getVocabulary().getWord(), p.getVocabulary().getDefinition(), "unchanged"))
         .toList();
   }
 
@@ -128,8 +128,8 @@ public class CardDeckService {
   public CardDeck updateDeck(Long deckId, UpdateDeckRequest request) {
     CardDeck deck = cardDeckRepository.findById(deckId).orElseThrow(() -> new RuntimeException("Deck not found"));
 
+    // Delete portion
     List<Long> deleteIds = request.getToDeleteIds();
-    log.info("Delete ids" + deleteIds);
 
     int deleted = cardDeckVocabularyRepository.deleteAllByCardDeckIdAndVocabularyIds(deckId, deleteIds);
 
@@ -137,9 +137,33 @@ public class CardDeckService {
       throw new IllegalStateException("Not all entries were deleted");
     }
 
-    log.info("Deleted " + deleted + " entries.");
-
     vocabRepository.deleteAllById(deleteIds);
+
+    // Update Portion
+    List<CardDTO> toEdit = request.getToEditCards();
+
+    for (CardDTO c : toEdit){
+      int updated = vocabRepository.updateAllById(c.getId(), c.getWord(), c.getDefinition());
+      if (updated != 1){
+        throw new IllegalStateException("Failed updating an entry");
+      }
+    }
+
+    // New portion
+    List<CardDTO> toCreate = request.getToCreateCards();
+
+    for (CardDTO c : toCreate){
+      Vocabulary v = new Vocabulary(c.getWord(), c.getDefinition());
+      vocabRepository.save(v);
+
+      CardDeckVocabulary link = new CardDeckVocabulary();
+      link.setCardDeck(deck);
+      link.setVocabulary(v);
+      link.setProgress(0);
+      link.setMastered(false);
+
+      cardDeckVocabularyRepository.save(link);
+    }
 
     return deck;
   }

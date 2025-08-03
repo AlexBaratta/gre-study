@@ -9,8 +9,8 @@ import java.util.List;
 @Getter
 @Setter
 public class UpdateDeckRequest {
-    private List<CardDTO> create;
-    private List<CardDTO> edit;
+    private List<CardDTO> toCreateCards;
+    private List<CardDTO> toEditCards;
     private List<Long> toDeleteIds;
 
 }

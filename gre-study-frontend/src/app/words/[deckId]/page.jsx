@@ -27,6 +27,7 @@ export default function ViewWordsPage() {
 
   const words = Array.isArray(data) ? data : data?.content ?? [];
 
+  console.log("words", words);
   const [page, setPage] = useState(0);
 
   const pageCount = Math.ceil(words.length / PER_PAGE);

@@ -21,6 +21,7 @@ export default function ViewAllWordsPage() {
   const { data, isLoading, isError, error } = useWords();
 
   const words = Array.isArray(data) ? data : data?.content ?? [];
+  const amountOfWords = words.length;
 
   const [page, setPage] = useState(0);
 
@@ -103,6 +104,8 @@ export default function ViewAllWordsPage() {
         breakLinkClassName="block px-3 py-1"
         activeLinkClassName="bg-blue-500 text-white"
       />
+
+      <p>{amountOfWords}</p>
 
       <table className="text-left table-auto">
         <thead className="text-xl py-4 uppercase bg-gray-200">
