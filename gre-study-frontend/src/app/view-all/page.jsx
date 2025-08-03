@@ -81,35 +81,39 @@ export default function ViewAllWordsPage() {
 
   return (
     <div className="flex flex-col overflow-x-auto">
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="›"
-        previousLabel="‹"
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={1}
-        pageCount={pageCount}
-        onPageChange={handlePageChange}
-        forcePage={page}
-        containerClassName="flex items-center gap-2 my-4"
-        pageClassName="list-none"
-        previousClassName="list-none"
-        nextClassName="list-none"
-        breakClassName="list-none"
-        activeClassName="active"
-        disabledClassName="opacity-50 pointer-events-none"
-        /* a */
-        pageLinkClassName="block px-3 py-1 border rounded"
-        previousLinkClassName="block px-3 py-1 border rounded"
-        nextLinkClassName="block px-3 py-1 border rounded"
-        breakLinkClassName="block px-3 py-1"
-        activeLinkClassName="bg-blue-500 text-white"
-      />
+      <div className="flex justify-between items-center">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="›"
+          previousLabel="‹"
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={1}
+          pageCount={pageCount}
+          onPageChange={handlePageChange}
+          forcePage={page}
+          containerClassName="flex items-center gap-2 my-4"
+          pageClassName="list-none"
+          previousClassName="list-none"
+          nextClassName="list-none"
+          breakClassName="list-none"
+          activeClassName="active"
+          disabledClassName="opacity-50 pointer-events-none"
+          /* a */
+          pageLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+          previousLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+          nextLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+          breakLinkClassName="block px-3 py-1 text-accent"
+          activeLinkClassName="bg-accent text-primary"
+        />
 
-      <p>{amountOfWords}</p>
+        <p className="flex align-center text-accent font-semibold">
+          {amountOfWords} words
+        </p>
+      </div>
 
-      <table className="text-left table-auto">
+      <table className="text-left table-auto rounded-lg overflow-hidden bg-white">
         <thead className="text-xl py-4 uppercase bg-gray-200">
-          <tr className="bg-gray-200 uppercase text-sm tracking-wider">
+          <tr className="bg-primary uppercase text-sm tracking-wider">
             <th className="px-6 py-3 text-gray-700">Word</th>
             <th className="px-6 py-3 text-gray-700">Definition</th>
             <th className="w-10 px-6 py-3 sr-only">Delete</th>
@@ -117,10 +121,7 @@ export default function ViewAllWordsPage() {
         </thead>
         <tbody className="py-4">
           {current.map(({ id, word, definition }) => (
-            <tr
-              key={id}
-              className="group border-b border-l border-r border-gray-200"
-            >
+            <tr key={id} className="group border-b border-primary">
               <td className="px-6 py-4">{word}</td>
               <td className="px-6 py-4">{definition}</td>
               <td
@@ -151,11 +152,11 @@ export default function ViewAllWordsPage() {
         activeClassName="active"
         disabledClassName="opacity-50 pointer-events-none"
         /* a */
-        pageLinkClassName="block px-3 py-1 border rounded"
-        previousLinkClassName="block px-3 py-1 border rounded"
-        nextLinkClassName="block px-3 py-1 border rounded"
-        breakLinkClassName="block px-3 py-1"
-        activeLinkClassName="bg-blue-500 text-white"
+        pageLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+        previousLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+        nextLinkClassName="block px-3 py-1 border border-accent text-accent rounded"
+        breakLinkClassName="block px-3 py-1 text-accent"
+        activeLinkClassName="bg-accent text-primary"
       />
 
       <ToastContainer />
