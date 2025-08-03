@@ -65,7 +65,7 @@ export default function CreateDeckPage() {
         <button
           type="submit"
           form="deck-form"
-          className="items-end bg-green-700 rounded text-white p-2 text-sm hover:bg-green-600"
+          className="items-end bg-[#a76463] rounded text-white p-2 text-sm hover:bg-primary"
           onClick={handleSubmit}
         >
           Create Deck

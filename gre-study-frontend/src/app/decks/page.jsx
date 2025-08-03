@@ -81,7 +81,7 @@ export default function DecksPage() {
     <div>
       <DeckInfoCard deckInfo={deckInfo} handleDelete={handleDelete} />
       <div
-        className="fixed bottom-0 right-0 hover:cursor-pointer text-gray-800"
+        className="fixed bottom-0 right-0 hover:cursor-pointer text-accent"
         onClick={() => handleOpenCreate()}
       >
         <PlusCircleIcon className="w-13 h-13 m-7 transition duration-400 hover:scale-110 " />

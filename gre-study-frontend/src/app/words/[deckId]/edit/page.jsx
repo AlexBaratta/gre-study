@@ -83,7 +83,7 @@ export default function EditDeckPage() {
       <div className="flex justify-end">
         <button
           type="button"
-          className="items-end bg-green-700 rounded text-white p-2 text-sm hover:bg-green-600"
+          className="items-end bg-[#a76463] rounded text-white p-2 text-sm hover:bg-primary"
           onClick={handleSubmit}
         >
           Update Deck

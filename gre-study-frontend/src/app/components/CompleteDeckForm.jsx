@@ -75,7 +75,7 @@ export default function CompleteDeckForm({
           <button
             type="button"
             onClick={handleAddCard}
-            className="flex bg-blue-600 rounded text-white p-2 text-sm hover:bg-blue-500"
+            className="flex bg-accent rounded text-white p-2 text-sm hover:bg-primary"
           >
             Add Card
           </button>
