@@ -18,6 +18,7 @@ import jakarta.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -101,12 +102,18 @@ public class CardDeckService {
   }
 
   public List<DeckCardResponse> getCards(Long id) {
-    return cardDeckVocabularyRepository.findByCardDeckId(id).stream()
-        .map(
-            p ->
-                new DeckCardResponse(
-                    p.getVocabulary().getId(), p.getVocabulary().getWord(), p.getVocabulary().getDefinition(), "unchanged"))
-        .toList();
+    List<DeckCardResponse> list =
+        cardDeckVocabularyRepository.findByCardDeckId(id).stream()
+            .map(
+                p ->
+                    new DeckCardResponse(
+                        p.getVocabulary().getId(),
+                        p.getVocabulary().getWord(),
+                        p.getVocabulary().getDefinition(),
+                        "unchanged"))
+            .sorted((a, b) -> a.getWord().compareToIgnoreCase(b.getWord()))
+            .collect(Collectors.toList());
+    return list;
   }
 
   @Transactional

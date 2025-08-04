@@ -22,14 +22,14 @@ export default function CardInput({ index, card, onChange, onDelete }) {
           placeholder={`Enter term`}
           name="word"
           value={card.word}
-          onChange={(e) => onChange(index, e)}
+          onChange={(e) => onChange(card.id, e)}
         />
         <input
           className="border border-primary p-2 w-full rounded"
           placeholder={`Enter definition`}
           name="definition"
           value={card.definition}
-          onChange={(e) => onChange(index, e)}
+          onChange={(e) => onChange(card.id, e)}
         />
       </div>
     </div>

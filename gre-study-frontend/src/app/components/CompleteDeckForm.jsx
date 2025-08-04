@@ -16,18 +16,19 @@ export default function CompleteDeckForm({
     setDeckInfo({ ...deckInfo, [name]: value });
   };
 
-  const handleCardInfoChange = (index, e) => {
+  const handleCardInfoChange = (cardId, e) => {
     const { name, value } = e.target;
-    const updatedCards = [...cards];
-    const card = updatedCards[index];
-    card[name] = value;
-
-    if (card.status !== "create") {
-      card.status = "edit";
-    }
-
-    updatedCards[index] = card;
-    setCards(updatedCards);
+    setCards((prev) =>
+      prev.map((card) =>
+        card.id === cardId
+          ? {
+              ...card,
+              [name]: value,
+              status: card.status === "create" ? "create" : "edit",
+            }
+          : card
+      )
+    );
   };
 
   const handleAddCard = () => {
@@ -37,16 +38,12 @@ export default function CompleteDeckForm({
     ]);
   };
 
-  const handleEditCard = () => {
-    setCards([...cards, {}]);
-  };
-
-  const handleCardDelete = (index) => {
-    const updatedCards = cards.map((card, i) =>
-      i === index ? { ...card, status: "delete" } : card
+  const handleCardDelete = (cardId) => {
+    setCards((prev) =>
+      prev.map((card) =>
+        card.id === cardId ? { ...card, status: "delete" } : card
+      )
     );
-    setCards(updatedCards);
-    console.log(cards);
   };
 
   return (
@@ -64,11 +61,11 @@ export default function CompleteDeckForm({
             .filter((card) => card.status !== "delete")
             .map((card, index) => (
               <CardInput
-                key={index}
+                key={card.id}
                 index={index}
                 card={card}
                 onChange={handleCardInfoChange}
-                onDelete={() => handleCardDelete(index)}
+                onDelete={() => handleCardDelete(card.id)}
               />
             ))}
         <div className="flex gap-2 justify-center">

@@ -71,9 +71,7 @@ public class CardDeckController {
     @GetMapping("/get-cards/{id}")
     public ResponseEntity<?> getCards(@PathVariable Long id) {
         try {
-            List<DeckCardResponse> response =
-            cardDeckService.getCards(id);
-
+            List<DeckCardResponse> response = cardDeckService.getCards(id);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {

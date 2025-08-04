@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { instance } from "../../utils/axiosInstance";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { toast, ToastContainer } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import FlashCard from "@/app/components/Flashcard";
@@ -150,12 +150,13 @@ export default function ViewWordsPage() {
           ))}
         </tbody>
       </table>
-      <div className="mt-4">
+      <div className="flex items-center justify-center mt-4">
         <button
-          className="bg-accent rounded text-white p-2 hover:bg-primary"
+          className="flex justify-center items-center align-center bg-accent rounded-lg text-white p-2 hover:bg-primary"
           onClick={handleAddWord}
         >
-          Add word
+          Add or remove word
+          <PencilIcon className="ml-2 size-4" />
         </button>
       </div>
       {amountOfWords > 10 && (

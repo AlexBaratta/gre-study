@@ -24,18 +24,17 @@ export default function EditDeckPage() {
   const [deckInfo, setDeckInfo] = useState({ title: "", description: "" });
 
   const { mutate: updateDeck } = useMutation({
-    mutationFn: async ({ deckId, toDeleteIds, toEditCards, toCreateCards }) =>
+    mutationFn: ({ deckId, toDeleteIds, toEditCards, toCreateCards }) =>
       instance.put(`/update-deck/${deckId}`, {
         toDeleteIds,
         toEditCards,
         toCreateCards,
       }),
-    onSuccess: () => {
+    onSuccess: async () => {
       //something
-      qc.invalidateQueries({
-        queryKey: [`${deckId}-words`],
-        queryKey: ["words"],
-      });
+      await qc.invalidateQueries({ queryKey: [`${deckId}-words`] });
+      await qc.invalidateQueries({ queryKey: ["words"] });
+
       localStorage.setItem("deckUpdated", "true");
       console.log("Success!");
       router.push(`/words/${deckId}/`);
