@@ -19,16 +19,6 @@ export default function CrosswordGenerator({ words }) {
   const [incorrectAnswers, setIncorrectAnswers] = useState([]);
   const [showStatus, setShowStatus] = useState(false);
 
-  const checkAnswers = () => {
-    setShowStatus(true);
-    console.log(incorrectAnswers);
-    if (isCorrect) {
-      toast.success("YIPPPPIEE YOU DID IT.");
-    } else {
-      toast.error("Oops. Some word is wrong :(");
-    }
-  };
-
   const onAnswerIncorrect = (direction, number, answer) => {
     setIncorrectAnswers((prev) => ({
       ...prev,
@@ -95,7 +85,7 @@ export default function CrosswordGenerator({ words }) {
   }
 
   return (
-    <div className="crossword">
+    <div className="crossword flex">
       <CrosswordProvider
         ref={crosswordRef}
         data={data}
@@ -110,16 +100,11 @@ export default function CrosswordGenerator({ words }) {
         }}
       >
         <CrosswordGrid />
-        <DirectionClues direction="across" />
-        <DirectionClues direction="down" />
+        <div className="flex flex-col ml-10 gap-2">
+          <DirectionClues direction="across" />
+          <DirectionClues direction="down" />
+        </div>
       </CrosswordProvider>
-
-      <button
-        onClick={checkAnswers}
-        className="bg-[#4D6F80] hover:bg-gray-300 text-white rounded p-2 mt-2"
-      >
-        Check Answers
-      </button>
       <ToastContainer />
     </div>
   );
