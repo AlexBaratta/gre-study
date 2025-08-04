@@ -11,11 +11,11 @@ export default function DeckInfoCard({ deckInfo, handleDelete }) {
   };
 
   return (
-    <ul className="divide-y divide-gray-100">
+    <ul className="divide-y">
       {deckInfo.map(({ id, title, description }) => (
         <li
           key={id}
-          className="group flex justify-between gap-x-6 py-5 transition duration-300 hover:bg-gray-100 rounded"
+          className="group flex justify-between gap-x-6 py-5 border border-primary rounded mb-3 bg-white transition-shadow duration-500 hover:shadow-lg hover:cursor-pointer"
           onClick={() => handleDeckClick(id)}
         >
           <div className="min-w-0 flex-auto pl-4">
@@ -25,7 +25,7 @@ export default function DeckInfoCard({ deckInfo, handleDelete }) {
             </p>
           </div>
           <div
-            className="flex items-center opacity-0 [@media(any-hover:_none)]:opacity-100 transition duration-300 group-hover:opacity-100 hover:text-red-500 "
+            className="flex items-center opacity-0 [@media(any-hover:_none)]:opacity-100 transition duration-500 group-hover:opacity-100 hover:text-red-500 "
             onClick={(e) => handleDelete(e, id)}
           >
             <TrashIcon className="h-5 w-5 mr-4" />
