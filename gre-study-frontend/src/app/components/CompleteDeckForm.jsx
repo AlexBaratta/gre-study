@@ -9,11 +9,19 @@ export default function CompleteDeckForm({
   setDeckInfo,
   cards,
   setCards,
+  handleCardDelete,
 }) {
   console.log("Card received", cards);
   const handleDeckInfoChange = (e) => {
     const { name, value } = e.target;
     setDeckInfo({ ...deckInfo, [name]: value });
+  };
+
+  const handleAddCard = () => {
+    setCards([
+      ...cards,
+      { word: "", definition: "", id: Date.now(), status: "create" },
+    ]);
   };
 
   const handleCardInfoChange = (cardId, e) => {
@@ -27,21 +35,6 @@ export default function CompleteDeckForm({
               status: card.status === "create" ? "create" : "edit",
             }
           : card
-      )
-    );
-  };
-
-  const handleAddCard = () => {
-    setCards([
-      ...cards,
-      { word: "", definition: "", id: Date.now(), status: "create" },
-    ]);
-  };
-
-  const handleCardDelete = (cardId) => {
-    setCards((prev) =>
-      prev.map((card) =>
-        card.id === cardId ? { ...card, status: "delete" } : card
       )
     );
   };

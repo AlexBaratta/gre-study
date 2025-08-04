@@ -71,6 +71,14 @@ export default function EditDeckPage() {
     updateDeck({ deckId, toDeleteIds, toEditCards, toCreateCards });
   };
 
+  const handleCardDelete = (cardId) => {
+    setCards((prev) =>
+      prev.map((card) =>
+        card.id === cardId ? { ...card, status: "delete" } : card
+      )
+    );
+  };
+
   return (
     <div>
       <CompleteDeckForm
@@ -78,6 +86,7 @@ export default function EditDeckPage() {
         setDeckInfo={setDeckInfo}
         cards={cards}
         setCards={setCards}
+        handleCardDelete={handleCardDelete}
       />
       <div className="flex justify-end">
         <button

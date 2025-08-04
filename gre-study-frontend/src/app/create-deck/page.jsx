@@ -52,6 +52,10 @@ export default function CreateDeckPage() {
     createDeck({ deckInfo: deckInfo, cards: cards });
   };
 
+  const handleCardDelete = (cardId) => {
+    setCards(cards.filter((c) => c.id !== cardId));
+  };
+
   return (
     <div className="">
       <CompleteDeckForm
@@ -59,6 +63,7 @@ export default function CreateDeckPage() {
         setDeckInfo={setDeckInfo}
         cards={cards}
         setCards={setCards}
+        handleCardDelete={handleCardDelete}
       />
 
       <div className="flex justify-end">
