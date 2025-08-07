@@ -109,9 +109,9 @@ export default function ViewWordsPage() {
         </button>
         <button
           className="rounded bg-accent text-white p-2 hover:cursor-pointer"
-          onClick={() => router.push("/spelling-thing")}
+          onClick={() => router.push(`/game/${deckId}`)}
         >
-          Spelling Thing
+          Definitions Game
         </button>
       </div>
       <div className="flex justify-center items-center mt-2">
