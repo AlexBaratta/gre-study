@@ -1,7 +1,7 @@
 "use client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const thing = "ssss";
 const LetterSquares = ({ word, input }) => {
@@ -10,7 +10,8 @@ const LetterSquares = ({ word, input }) => {
       {Array.from({ length: word?.length }).map((_, i) => {
         let color = "none";
         if (input[i]) {
-          color = input[i] === word[i] ? "green" : "red";
+          color =
+            input[i].toLowerCase() === word[i].toLowerCase() ? "green" : "red";
         }
         return (
           <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
@@ -21,7 +22,7 @@ const LetterSquares = ({ word, input }) => {
               height="10"
               fill={color}
               stroke="black"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </svg>
         );
@@ -34,6 +35,8 @@ export default function GamePage() {
   const params = useParams();
   const deckId = params.deckId;
   const qc = useQueryClient();
+  const inputRef = useRef(null);
+
   const rawWords = qc.getQueryData([`${deckId}-words`]);
   const words = Array.isArray(rawWords) ? rawWords : [];
 
@@ -50,12 +53,16 @@ export default function GamePage() {
   const handleInput = (e) => {
     const val = e.target.value;
     setInput(e.target.value);
-    if (val === current?.word) {
+    if (val.toLowerCase() === current?.word.toLowerCase()) {
       setCurrentIdx((idx) => (idx < shuffled.length - 1 ? idx + 1 : idx));
       setInput("");
     }
     console.log(val);
   };
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [handleInput]);
 
   return (
     <div className="h-full bg-red-100 flex justify-around items-center align-center gap-1 p-1">
@@ -69,6 +76,7 @@ export default function GamePage() {
             key={current?.word}
             onChange={handleInput}
             value={input}
+            ref={inputRef}
             placeholder={`Starts with ${current?.word[0]}`}
             className="bg-white justify-center items-center text-center text-3xl focus:outline-none"
           />
