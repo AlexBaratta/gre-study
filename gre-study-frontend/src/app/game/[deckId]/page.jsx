@@ -14,7 +14,12 @@ const LetterSquares = ({ word, input }) => {
             input[i].toLowerCase() === word[i].toLowerCase() ? "green" : "red";
         }
         return (
-          <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            key={i}
+            width="20"
+            height="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <rect
               x="5"
               y="5"
@@ -57,7 +62,6 @@ export default function GamePage() {
       setCurrentIdx((idx) => (idx < shuffled.length - 1 ? idx + 1 : idx));
       setInput("");
     }
-    console.log(val);
   };
 
   useEffect(() => {
@@ -68,7 +72,7 @@ export default function GamePage() {
     <div className="h-full bg-red-100 flex justify-around items-center align-center gap-1 p-1">
       <div></div>
       <div className="flex h-full bg-white justify-center items-center p-8 flex-1">
-        <div className="bg-white text-3xl">{current?.word}</div>
+        <div className="bg-white text-3xl">{current?.definition}</div>
       </div>
       <div className="flex h-full bg-white items-center justify-center p-8 flex-1">
         <div className="bg-white">
