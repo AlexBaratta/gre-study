@@ -69,8 +69,7 @@ export default function GamePage() {
   }, [handleInput]);
 
   return (
-    <div className="h-full bg-red-100 flex justify-around items-center align-center gap-1 p-1">
-      <div></div>
+    <div className="h-full flex justify-around items-center align-center gap-1 p-1">
       <div className="flex h-full bg-white justify-center items-center p-8 flex-1">
         <div className="bg-white text-3xl">{current?.definition}</div>
       </div>
