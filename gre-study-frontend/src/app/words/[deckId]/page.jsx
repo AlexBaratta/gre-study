@@ -94,6 +94,26 @@ export default function ViewWordsPage() {
 
   return (
     <div className="flex flex-col overflow-x-auto">
+      <div className="flex justify-center gap-3 mb-4">
+        <button
+          className="rounded bg-accent text-white p-2 hover:cursor-pointer"
+          onClick={() => router.push(`/flashcards/${deckId}`)}
+        >
+          Flashcards
+        </button>
+        <button
+          className="rounded bg-accent text-white p-2 hover:cursor-pointer"
+          onClick={() => router.push(`/crossword/${deckId}`)}
+        >
+          Crossword
+        </button>
+        <button
+          className="rounded bg-accent text-white p-2 hover:cursor-pointer"
+          onClick={() => router.push("/spelling-thing")}
+        >
+          Spelling Thing
+        </button>
+      </div>
       <div className="flex justify-center items-center mt-2">
         <FlashCard words={words} />
       </div>
